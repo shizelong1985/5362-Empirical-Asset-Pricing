@@ -1,3 +1,5 @@
+# install.packages(c("tidyverse", "lubridate", "scales", "RSQLite", "dbplyr", "RPostgres", "frenchdata","sandwich"))
+
 library(tidyverse)
 library(lubridate)
 library(scales)
@@ -5,11 +7,17 @@ library(RSQLite)
 library(dbplyr)
 library(RPostgres)
 library(frenchdata)
+library(sandwich)
 
-start_date <- ymd("1990-01-01")
+rm(list = ls())
+
+setwd("/Users/tobiasbrammer/Library/Mobile Documents/com~apple~CloudDocs/Documents/Aarhus Uni/8. semester/5362-Empirical-Asset-Pricing/Project/Data")
+
+start_date <- ymd("1970-01-01")
 end_date <- ymd("2019-12-31")
 
-### FF5 ###
+########## Returns Data and Factors ##########
+### FF3 ###
 factors_ff_monthly_raw <- download_french_data("Fama/French 3 Factors")
 factors_ff_monthly <- factors_ff_monthly_raw$subsets$data[[1]] |>
   transmute(
@@ -22,27 +30,20 @@ factors_ff_monthly <- factors_ff_monthly_raw$subsets$data[[1]] |>
   filter(month >= start_date & month <= end_date)
 
 # Create database
-tidy_finance <- dbConnect(
+db_connection <- dbConnect(
   SQLite(),
-  "data/tidy_finance.sqlite",
+  "data/db_connection.sqlite",
   extended_types = TRUE
 )
 
 # Write table
-dbWriteTable(tidy_finance,
+dbWriteTable(db_connection,
              "factors_ff_monthly",
              value = factors_ff_monthly,
              overwrite = TRUE
 )
 
-factors_ff_monthly_db <- tbl(tidy_finance, "factors_ff_monthly")
-
-
-# Optimize DB
-dbSendQuery(tidy_finance, "VACUUM")
-
-# List tables in DB
-dbListTables(tidy_finance)
+factors_ff_monthly_db <- tbl(db_connection, "factors_ff_monthly")
 
 ### CRSP Database ###
 wrds <- dbConnect(
@@ -51,8 +52,8 @@ wrds <- dbConnect(
   dbname = "wrds",
   port = 9737,
   sslmode = "require",
-  user = Sys.getenv("eap2023"),
-  password = Sys.getenv("empiricalAP2023")
+  user = "tbrammer",
+  password = "naqgUf-bantas-1ruwby"
 )
 
 # the CRSP monthly security file,
@@ -135,6 +136,7 @@ crsp_monthly <- crsp_monthly |>
     mktcap = na_if(mktcap, 0)
   )
 
+
 # One-month lagged market cap.
 mktcap_lag <- crsp_monthly |>
   mutate(month = month %m+% months(1)) |>
@@ -142,7 +144,6 @@ mktcap_lag <- crsp_monthly |>
 
 crsp_monthly <- crsp_monthly |>
   left_join(mktcap_lag, by = c("permno", "month"))
-
 
 # Reflect the returns of investors who bought a stock in the month before
 # delisting and held it until the delisting date. 
@@ -157,14 +158,9 @@ crsp_monthly <- crsp_monthly |>
   )) |>
   select(-c(dlret, dlstcd))
 
-# Join with FF5
-tidy_finance <- dbConnect(
-  SQLite(),
-  "data/tidy_finance.sqlite",
-  extended_types = TRUE
-)
+# Join with FF
 
-factors_ff_monthly <- tbl(tidy_finance, "factors_ff_monthly") |>
+factors_ff_monthly <- tbl(db_connection, "factors_ff_monthly") |>
   collect()
 
 crsp_monthly <- crsp_monthly |>
@@ -177,54 +173,40 @@ crsp_monthly <- crsp_monthly |>
   ) |>
   select(-ret_adj, -rf)
 
+# Order by date and calculate cumulative returns for each stock
+crsp_monthly <- crsp_monthly |>
+  group_by(permno) |>
+  arrange(date) |>
+  mutate(ret_cum = cumprod(1 + ret_excess) - 1)
+
+# Plot cumulative returns
+crsp_monthly |>
+  filter(permno == 14593) |>
+  ggplot(aes(x = date, y = ret_cum)) +
+  geom_line() +
+  labs(
+    x = NULL, y = NULL,
+    title = "Cumulative Returns of a Microsoft"
+  ) +
+  scale_x_date(date_breaks = "10 years", date_labels = "%Y") +
+  scale_y_continuous(labels = percent)
 
 # Drop observations with no market cap and no returns
 crsp_monthly <- crsp_monthly |>
   drop_na(ret_excess, mktcap, mktcap_lag)
 
 # Store in DB
-dbWriteTable(tidy_finance,
+dbWriteTable(db_connection,
              "crsp_monthly",
              value = crsp_monthly,
              overwrite = TRUE
 )
 
-### Check the data ###
-# No of stocks on each exchange
-crsp_monthly |>
-  count(exchange, date) |>
-  ggplot(aes(x = date, y = n, color = exchange, linetype = exchange)) +
-  geom_line() +
-  labs(
-    x = NULL, y = NULL, color = NULL, linetype = NULL,
-    title = "Monthly number of securities by listing exchange"
-  ) +
-  scale_x_date(date_breaks = "10 years", date_labels = "%Y") +
-  scale_y_continuous(labels = comma)
+# Get crsp_monthly from DB
+crsp_monthly <- tbl(db_connection, "crsp_monthly") |>
+  collect()
 
-# Market cap by exchange
-tbl(tidy_finance, "crsp_monthly") |>
-  left_join(tbl(tidy_finance, "cpi_monthly"), by = "month") |>
-  group_by(month, exchange) |>
-  summarize(
-    mktcap = sum(mktcap, na.rm = TRUE) / cpi,
-    .groups = "drop"
-  ) |>
-  collect() |>
-  mutate(month = ymd(month)) |>
-  ggplot(aes(
-    x = month, y = mktcap / 1000,
-    color = exchange, linetype = exchange
-  )) +
-  geom_line() +
-  labs(
-    x = NULL, y = NULL, color = NULL, linetype = NULL,
-    title = "Monthly market cap by listing exchange in billions of Dec 2021 USD"
-  ) +
-  scale_x_date(date_breaks = "10 years", date_labels = "%Y") +
-  scale_y_continuous(labels = comma)
-
-### Compustat Fundamentals ###
+########## Compustat Fundamentals ##########
 funda_db <- tbl(wrds, in_schema("comp", "funda"))
 
 # (i) we get only records in industrial data format, 
@@ -247,6 +229,9 @@ compustat <- funda_db |>
     txditc, # Deferred taxes and investment tax credit
     txdb, # Deferred taxes
     itcb, # Investment tax credit
+    sale, # Sales
+    revt, # Total revenue
+    xrd, # R&D
     pstkrv, # Preferred stock redemption value
     pstkl, # Preferred stock liquidating value
     pstk, # Preferred stock par value
@@ -264,6 +249,54 @@ compustat <- compustat |>
     be = if_else(be <= 0, as.numeric(NA), be)
   )
 
+compustat <- compustat |>
+  mutate(month = month(datadate),
+         year = year(datadate)
+         )
+
+# Year lagged sales.
+sale_lag <- compustat |>
+  mutate(datadate = datadate %m+% months(12),
+         month = month(datadate),
+         year = year(datadate),
+         sale = sale) |>
+  select(gvkey, c(month, year), sale_lag = sale)
+
+compustat <- compustat |>
+  left_join(sale_lag, by = c("gvkey", c("month", "year")))
+
+# Calculate sales growth
+compustat <- compustat |>
+  mutate(
+    sale_g = coalesce(if_else(sale <= 0, as.numeric(NA), log(sale)) - 
+                        if_else(sale_lag <= 0, as.numeric(NA), log(sale_lag)),
+                      0)
+  )
+
+# Year lagged sales growth.
+sale_g_lag <- compustat |>
+  mutate(datadate = datadate %m+% months(12),
+         month = month(datadate),
+         year = year(datadate),
+         sale_g = sale_g) |>
+  select(gvkey, c(month, year), sale_g_lag = sale_g)
+
+compustat <- compustat |>
+  left_join(sale_g_lag, by = c("gvkey", c("month", "year")))
+
+# Year lagged Investments
+invest_lag <- compustat |>
+  mutate(datadate = datadate %m+% months(12),
+         month = month(datadate),
+         year = year(datadate),
+         capx = capx,
+         at = at,
+         lt = lt) |>
+  select(gvkey, c(month, year), capx_lag = capx, at_lag = at, lt_lag = lt)
+
+compustat <- compustat |>
+  left_join(invest_lag, by = c("gvkey", c("month", "year")))
+
 # We keep only the last available information for each firm-year group.
 compustat <- compustat |>
   mutate(year = year(datadate)) |>
@@ -272,13 +305,13 @@ compustat <- compustat |>
   ungroup()
 
 # Store in DB
-dbWriteTable(tidy_finance,
+dbWriteTable(db_connection,
              "compustat",
              value = compustat,
              overwrite = TRUE
 )
 
-## Merge with CRSP ## 
+############ Merge with CRSP ########## 
 # Get the matching table from CRSP
 ccmxpf_linktable_db <- tbl(
   wrds,
@@ -304,33 +337,35 @@ crsp_monthly <- crsp_monthly |>
   left_join(ccm_links, by = c("permno", "date"))
 
 # Update CRSP
-dbWriteTable(tidy_finance,
+dbWriteTable(db_connection,
              "crsp_monthly",
              value = crsp_monthly,
              overwrite = TRUE
 )
 
-# Check fundamentals
-crsp_monthly |>
+########## Create full dataset ########## 
+
+# Left join compustat with CRSP using gvkey and year
+data <- crsp_monthly |>
   group_by(permno, year = year(month)) |>
   filter(date == max(date)) |>
   ungroup() |>
-  left_join(compustat, by = c("gvkey", "year")) |>
-  group_by(exchange, year) |>
-  summarize(
-    share = n_distinct(permno[!is.na(be)]) / n_distinct(permno),
-    .groups = "drop"
-  ) |>
-  ggplot(aes(
-    x = year, 
-    y = share, 
-    color = exchange,
-    linetype = exchange
-  )) +
-  geom_line() +
-  labs(
-    x = NULL, y = NULL, color = NULL, linetype = NULL,
-    title = "Share of securities with book equity values by exchange"
-  ) +
-  scale_y_continuous(labels = percent) +
-  coord_cartesian(ylim = c(0, 1))
+  left_join(compustat, by = c("gvkey", "year"))
+
+# Rename data$month.y to data$month_num and data$month.x to data$month
+data <- data |>
+  rename(month_num = month.y, month = month.x)
+
+### Drop where exchange is Other ###
+data <- data |>
+  filter(exchange != "Other")
+
+# Write to DB
+dbWriteTable(db_connection,
+             "data",
+             value = data,
+             overwrite = TRUE
+)
+
+# Optimize DB
+dbExecute(db_connection, "VACUUM;")
