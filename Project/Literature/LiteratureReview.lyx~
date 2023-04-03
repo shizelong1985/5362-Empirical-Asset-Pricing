@@ -1,0 +1,833 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{lastpage}
+\usepackage{matlab-prettifier}
+\fancyhf{}               % Clear fancy header/footer
+\fancyfoot[C]{Page \thepage~of~\pageref{LastPage}}  % Page number in center footer
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+graphicboxes
+minimalistic
+customHeadersFooters
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format pdf5
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 4cm
+\rightmargin 3cm
+\bottommargin 4cm
+\secnumdepth 5
+\tocdepth 4
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\listings_params "style={Matlab-editor}"
+\bullet 2 0 10 -1
+\bullet 3 0 9 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Literature Review
+\end_layout
+
+\begin_layout Section
+Whited, T.
+ M., & Wu, G.
+ (2006).
+ Financial constraints risk.
+ The Review of Financial Studies, 19(2), 531-559.
+\end_layout
+
+\begin_layout Standard
+In their paper, Whited and Wu (2006) investigate the impact of financial
+ constraints on the risk and expected returns of firms.
+ They develop a novel measure of financial constraints and test its ability
+ to explain the cross-section of stock returns.
+ The authors aim to contribute to the understanding of how financial constraints
+ affect firms' investment decisions, risk profiles, and stock returns.
+\end_layout
+
+\begin_layout Standard
+The study proposes a financial constraints index that incorporates several
+ firm-level characteristics, including size, age, dividend payments, and
+ cash holdings, as well as macroeconomic variables, such as the term structure
+ of interest rates.
+ This composite index is designed to capture the degree to which firms are
+ financially constrained and, consequently, their riskiness.
+\end_layout
+
+\begin_layout Standard
+Whited and Wu find that financially constrained firms exhibit higher stock
+ return volatility and higher systematic risk, as captured by their beta
+ estimates.
+ They also show that these firms have higher expected returns, which is
+ consistent with the notion that investors demand a premium for holding
+ stocks of financially constrained companies due to their higher risk.
+\end_layout
+
+\begin_layout Standard
+The authors test the robustness of their findings by conducting various
+ sensitivity analyses.
+ They use alternative proxies for financial constraints, apply different
+ estimation methodologies, and analyze sub-samples of firms to ensure the
+ robustness of their results.
+ The findings remain consistent, reinforcing the conclusion that financial
+ constraints are an important determinant of firms' risk and expected returns.
+\end_layout
+
+\begin_layout Standard
+The study contributes to the literature on the relationship between financial
+ constraints and stock returns, providing valuable insights for investors,
+ financial analysts, and policymakers.
+ It highlights the importance of considering financial constraints when
+ evaluating firms' risk profiles and the potential impact of these constraints
+ on expected stock returns.
+ Additionally, the authors' financial constraint index can serve as a useful
+ tool for researchers and practitioners to measure and analyze the impact
+ of financial constraints on firm-level outcomes.
+\end_layout
+
+\begin_layout Section
+Cooper, R.
+ W., & Ejarque, J.
+ (2003).
+ Financial frictions and investment: Requiem in Q.
+ The Review of Economic Dynamics, 6(4), 710-728.
+\end_layout
+
+\begin_layout Standard
+In their paper, Cooper and Ejarque (2003) examine the relationship between
+ financial frictions and investment decisions, focusing on the role of Tobin's
+ Q as an investment determinant.
+ The authors challenge the standard neoclassical investment model, which
+ assumes that Tobin's Q is sufficient to capture the impact of financial
+ frictions on investment.
+ They propose an alternative model incorporating financial constraints and
+ assess its ability to explain firm-level investment behavior.
+\end_layout
+
+\begin_layout Standard
+The study begins by discussing the limitations of the neoclassical investment
+ model, which is based on the assumption that firms can finance their investment
+ projects by issuing new shares at their market value.
+ In reality, firms may face financial frictions, such as asymmetric information
+ and agency problems, that limit their ability to raise external financing.
+ These frictions can affect investment decisions, and Tobin's Q may not
+ fully capture their impact.
+\end_layout
+
+\begin_layout Standard
+To address this issue, Cooper and Ejarque propose an alternative model that
+ incorporates financial constraints as a determinant of investment.
+ In this model, firms face borrowing constraints, and their investment decisions
+ depend on both Tobin's Q and their internal financial resources.
+ The authors argue that this model provides a more accurate representation
+ of the relationship between financial frictions and investment.
+\end_layout
+
+\begin_layout Standard
+Using firm-level data, the authors estimate their model and compare its
+ performance with the standard neoclassical model.
+ They find that the alternative model with financial constraints performs
+ better in explaining investment behavior, highlighting the importance of
+ considering financial frictions in investment analysis.
+ The results suggest that Tobin's Q alone may not be sufficient to capture
+ the impact of financial constraints on investment decisions.
+\end_layout
+
+\begin_layout Standard
+Cooper and Ejarque's study contributes to the understanding of the role
+ of financial frictions in investment decisions and challenges the conventional
+ wisdom that Tobin's Q is an adequate measure of the investment incentive.
+ The authors' findings have important implications for both empirical research
+ on investment behavior and the design of policies aimed at promoting investment
+ and economic growth.
+\end_layout
+
+\begin_layout Section
+Brown, J.
+ R., Fazzari, S.
+ M., & Petersen, B.
+ C.
+ (2009).
+ Financing innovation and growth: Cash flow, external equity, and the 1990s
+ R&D boom.
+ The Journal of Finance, 64(1), 151-185.
+\end_layout
+
+\begin_layout Standard
+In their paper, Brown, Fazzari, and Petersen (2009) explore the relationship
+ between financing sources, such as cash flow and external equity, and firms'
+ research and development (R&D) investments during the 1990s R&D boom.
+ The authors aim to understand how different financing sources influenced
+ firms' innovation activities and growth during this period, characterized
+ by rapid technological advancements and a surge in R&D spending.
+\end_layout
+
+\begin_layout Standard
+The study uses a panel of firm-level data from Compustat to examine the
+ role of cash flow and external equity in financing R&D investments.
+ The authors employ a fixed-effects model to control for unobservable firm-speci
+fic factors and focus on the impact of financing sources on R&D spending.
+\end_layout
+
+\begin_layout Standard
+Brown, Fazzari, and Petersen find that both cash flow and external equity
+ were important drivers of R&D investments during the 1990s.
+ They show that firms with higher cash flow and those that raised external
+ equity through stock issuance were more likely to increase their R&D spending.
+ The relationship between financing sources and R&D investments was particularly
+ pronounced for smaller and younger firms, which typically face greater
+ financial constraints and rely more heavily on internal cash flow and external
+ equity to fund their innovation activities.
+\end_layout
+
+\begin_layout Standard
+The authors also analyze the role of financial constraints in determining
+ the sensitivity of R&D investments to cash flow and external equity.
+ They find that financially constrained firms were more sensitive to changes
+ in financing sources, suggesting that these firms' innovation activities
+ were more vulnerable to fluctuations in available funding.
+\end_layout
+
+\begin_layout Standard
+Brown, Fazzari, and Petersen's study contributes to the understanding of
+ the role of financing sources in promoting innovation and growth.
+ The findings have important implications for policymakers, as they highlight
+ the need to facilitate access to external financing for innovative firms,
+ particularly smaller and younger ones, to support their R&D activities
+ and promote economic growth.
+ Additionally, the study provides valuable insights for investors and financial
+ analysts interested in the relationship between firms' financing decisions
+ and their innovation outcomes.
+\end_layout
+
+\begin_layout Section
+Aghion, P., Bond, S., Klemm, A., & Marinescu, I.
+ (2004).
+ Technology and financial structure: Are innovative firms different? Journal
+ of the European Economic Association, 2(2-3), 277-288.
+\end_layout
+
+\begin_layout Standard
+In their paper, Aghion, Bond, Klemm, and Marinescu (2004) investigate whether
+ innovative firms exhibit different financial structures compared to non-innovat
+ive firms.
+ The authors focus on the relationship between technology, innovation, and
+ financial structure to better understand the financing choices of innovative
+ firms and the potential impact of these choices on their growth and performance.
+\end_layout
+
+\begin_layout Standard
+The study uses a unique dataset from the United Kingdom, which includes
+ information on firms' innovation activities, such as R&D spending and patenting
+ behavior, as well as their financial structure.
+ The authors employ a range of econometric techniques, including panel data
+ analysis and instrumental variable estimation, to assess the relationship
+ between innovation and financial structure.
+\end_layout
+
+\begin_layout Standard
+Aghion, Bond, Klemm, and Marinescu find that innovative firms exhibit different
+ financial structures compared to non-innovative firms.
+ Specifically, they show that innovative firms tend to have a higher reliance
+ on external equity financing and a lower reliance on debt financing.
+ This pattern is consistent with the idea that innovative firms face greater
+ informational asymmetries and agency problems, making it more difficult
+ for them to raise debt financing.
+ Additionally, the authors find that innovative firms with higher levels
+ of external equity financing exhibit faster growth in sales and employment,
+ suggesting a positive relationship between external equity financing and
+ firm performance.
+\end_layout
+
+\begin_layout Standard
+The study also explores the role of financial constraints in shaping the
+ relationship between innovation and financial structure.
+ The authors find that financially constrained innovative firms are more
+ likely to use external equity financing and have a lower reliance on debt
+ financing.
+ This result highlights the importance of considering financial constraints
+ when analyzing the financial structure of innovative firms.
+\end_layout
+
+\begin_layout Standard
+Aghion, Bond, Klemm, and Marinescu's paper contributes to the understanding
+ of the relationship between technology, innovation, and financial structure.
+ The findings have important implications for investors, financial analysts,
+ and policymakers, as they suggest that innovative firms may require different
+ financing strategies to support their growth and performance.
+ Additionally, the study provides valuable insights into the role of financial
+ constraints in shaping the financing choices of innovative firms, with
+ potential implications for policies aimed at promoting innovation and economic
+ growth.
+\end_layout
+
+\begin_layout Section
+Asker, J., Farre-Mensa, J., & Ljungqvist, A.
+ (2015).
+ Corporate investment and stock market listing: A puzzle? Review of Financial
+ Studies, 28(2), 342-390.
+\end_layout
+
+\begin_layout Standard
+In their paper, Asker, Farre-Mensa, and Ljungqvist (2015) explore the difference
+s in investment behavior between publicly listed and privately held firms.
+ The authors aim to understand the puzzle of why public firms invest less
+ than their private counterparts, despite having easier access to external
+ financing.
+ They investigate the factors that may contribute to this puzzle and assess
+ the potential implications for firm performance and economic growth.
+\end_layout
+
+\begin_layout Standard
+The study uses a comprehensive dataset of U.S.
+ manufacturing firms, which includes both public and private firms, to analyze
+ the differences in investment behavior between the two groups.
+ The authors employ a range of econometric techniques, including panel data
+ analysis and propensity score matching, to control for observable and unobserva
+ble firm-specific factors that may influence investment decisions.
+\end_layout
+
+\begin_layout Standard
+Asker, Farre-Mensa, and Ljungqvist find that public firms invest significantly
+ less than their private counterparts, even after controlling for firm character
+istics and industry-specific factors.
+ They show that this gap in investment cannot be fully explained by differences
+ in firm size, growth opportunities, or access to external financing.
+ Instead, the authors argue that the lower investment by public firms may
+ be driven by a combination of factors, including managerial short-termism,
+ the influence of activist investors, and the pressure to meet earnings
+ targets.
+\end_layout
+
+\begin_layout Standard
+The study also explores the potential implications of this investment gap
+ for firm performance and economic growth.
+ The authors find that the lower investment by public firms may have negative
+ consequences for their long-term growth prospects, as well as for aggregate
+ economic growth.
+ They argue that this finding highlights the need for a better understanding
+ of the factors driving the investment behavior of public firms and for
+ policy interventions that may help to mitigate the negative consequences
+ of underinvestment.
+\end_layout
+
+\begin_layout Standard
+Asker, Farre-Mensa, and Ljungqvist's paper contributes to the literature
+ on corporate investment and stock market listing by providing a comprehensive
+ analysis of the differences in investment behavior between public and private
+ firms.
+ The findings have important implications for investors, financial analysts,
+ and policymakers, as they highlight the potential costs associated with
+ stock market listing and the need for a better understanding of the factors
+ that drive the investment decisions of public firms.
+\end_layout
+
+\begin_layout Section
+Titman, S., Wei, K.
+ C.
+ J., & Xie, F.
+ (2004).
+ Capital investments and stock returns.
+ Journal of Financial and Quantitative Analysis, 39(4), 677-700.
+\end_layout
+
+\begin_layout Standard
+In their paper, Titman, Wei, and Xie (2004) investigate the relationship
+ between capital investments and subsequent stock returns.
+ The authors aim to understand whether the level of a firm's capital investments
+ can predict its future stock performance and, if so, to identify the potential
+ factors that may explain this relationship.
+\end_layout
+
+\begin_layout Standard
+The study uses a large sample of U.S.
+ firms from the Compustat database, covering the period from 1971 to 1999.
+ The authors employ a range of econometric techniques, including panel data
+ analysis and cross-sectional regressions, to assess the relationship between
+ capital investments and stock returns.
+ They control for various firm-specific factors, such as size, book-to-market
+ ratio, and past stock performance, that may influence stock returns.
+\end_layout
+
+\begin_layout Standard
+Titman, Wei, and Xie find that there is a negative relationship between
+ capital investments and subsequent stock returns, indicating that firms
+ with higher levels of capital investments tend to underperform their counterpar
+ts with lower investments.
+ This relationship is robust to controlling for other firm-specific factors
+ and persists over various time horizons.
+\end_layout
+
+\begin_layout Standard
+The authors explore several potential explanations for this negative relationshi
+p between capital investments and stock returns.
+ They find evidence that suggests that the relationship may be driven by
+ a combination of factors, including overinvestment by firms, mispricing
+ of growth opportunities, and market inefficiencies.
+ The authors argue that their findings are consistent with the idea that
+ the market may overvalue firms with high capital investments, leading to
+ subsequent underperformance as the overvaluation is corrected.
+\end_layout
+
+\begin_layout Standard
+Titman, Wei, and Xie's paper contributes to the literature on capital investment
+s and stock returns by providing a comprehensive analysis of the relationship
+ between these two variables.
+ The findings have important implications for investors, financial analysts,
+ and portfolio managers, as they suggest that capital investments can be
+ a useful predictor of future stock performance.
+ Additionally, the study provides valuable insights into the potential factors
+ driving this relationship, with implications for understanding market inefficie
+ncies and the role of capital investments in firm valuation.
+\end_layout
+
+\begin_layout Section
+Fama, E.
+ F., & French, K.
+ R.
+ (1993).
+ Common risk factors in the returns on stocks and bonds.
+ Journal of Financial Economics, 33(1), 3-56.
+\end_layout
+
+\begin_layout Standard
+In their influential paper, Fama and French (1993) propose a multifactor
+ asset pricing model that aims to better explain the variation in stock
+ and bond returns compared to the traditional single-factor capital asset
+ pricing model (CAPM).
+ The authors introduce two additional risk factors, size and book-to-market
+ equity ratio, in addition to the market risk factor, to capture the common
+ risks driving stock and bond returns.
+\end_layout
+
+\begin_layout Standard
+The study uses a large sample of U.S.
+ stocks and bonds spanning from 1963 to 1990.
+ Fama and French employ various econometric techniques, including time-series
+ regressions and cross-sectional analyses, to test the validity of their
+ multifactor model and to compare its explanatory power to that of the CAPM.
+\end_layout
+
+\begin_layout Standard
+Fama and French find that their three-factor model outperforms the traditional
+ CAPM in explaining the cross-sectional variation in stock and bond returns.
+ The size factor, represented by the difference in returns between small-cap
+ and large-cap stocks (SMB), and the book-to-market equity factor, represented
+ by the difference in returns between high and low book-to-market stocks
+ (HML), are found to be significant in explaining the variation in returns
+ beyond what is captured by the market risk factor alone.
+\end_layout
+
+\begin_layout Standard
+The authors also examine the performance of their multifactor model in explainin
+g the returns of various bond portfolios.
+ They find that the three-factor model is capable of explaining the variation
+ in bond returns as well, although the size and book-to-market equity factors
+ play a less significant role compared to the market risk factor for bond
+ portfolios.
+\end_layout
+
+\begin_layout Standard
+Fama and French's paper has had a profound impact on the field of finance
+ and investment management.
+ The three-factor model they propose has become a cornerstone of modern
+ finance, leading to the development of additional multifactor models and
+ shaping the way investors and portfolio managers assess risk and construct
+ portfolios.
+ The findings of their study also challenge the traditional CAPM, highlighting
+ the importance of considering multiple risk factors when analyzing the
+ performance of stocks and bonds.
+\end_layout
+
+\begin_layout Section
+Tobin, J.
+ (1969).
+ A General Equilibrium Approach to Monetary Theory.
+ Journal of Money, Credit and Banking, 1(1), 15-29.
+\end_layout
+
+\begin_layout Standard
+In his seminal paper, Tobin (1969) presents a general equilibrium approach
+ to monetary theory, focusing on the role of money in determining the allocation
+ of resources and the pricing of assets in an economy.
+ The paper aims to provide a more comprehensive and coherent framework for
+ understanding the relationships between money, interest rates, and asset
+ prices, as well as the implications of these relationships for monetary
+ policy and macroeconomic stability.
+\end_layout
+
+\begin_layout Standard
+Tobin's general equilibrium approach is grounded in the principles of neoclassic
+al economics, with the key assumption that individual agents (consumers,
+ firms, and investors) optimize their behavior based on their preferences
+ and the constraints they face.
+ The model incorporates both real and financial assets, allowing for a rich
+ analysis of the interactions between the monetary and real sectors of the
+ economy.
+\end_layout
+
+\begin_layout Standard
+In the context of this general equilibrium framework, Tobin introduces the
+ concept of Tobin's Q, which is the ratio of the market value of an asset
+ to its replacement cost.
+ Tobin's Q serves as a key determinant of firms' investment decisions in
+ the model, as it reflects the relative attractiveness of investing in new
+ capital goods versus purchasing existing ones.
+ When Tobin's Q is greater than one, it implies that the market value of
+ assets is higher than their replacement cost, signaling that firms have
+ an incentive to invest in new capital goods.
+ Conversely, when Tobin's Q is less than one, firms are more likely to purchase
+ existing assets instead of investing in new capital goods.
+\end_layout
+
+\begin_layout Standard
+Tobin's paper also discusses the role of monetary policy in influencing
+ the allocation of resources and the stability of the economy.
+ In particular, the author highlights how changes in the money supply can
+ affect interest rates, asset prices, and ultimately the level of investment
+ and economic activity.
+ This analysis has important implications for the design and conduct of
+ monetary policy, as it underscores the need for central banks to consider
+ the broader macroeconomic consequences of their actions, beyond simply
+ targeting inflation or short-term interest rates.
+\end_layout
+
+\begin_layout Standard
+Tobin's (1969) general equilibrium approach to monetary theory has had a
+ lasting impact on the field of economics, shaping the way researchers and
+ policymakers think about the role of money in the economy and the interactions
+ between monetary policy and the real sector.
+ The concept of Tobin's Q has also become a widely used tool for analyzing
+ firms' investment decisions and the determinants of asset prices, both
+ in theoretical and empirical research.
+\end_layout
+
+\begin_layout Section
+Hou, K., Mo, H., Xue, C., & Zhang, L.
+ (2019).
+ Which Factors?*.
+ The Review of Finance, 23(1), 1-40.
+\end_layout
+
+\begin_layout Standard
+In their 2019 paper, Hou, Mo, Xue, and Zhang conduct a comprehensive evaluation
+ of the performance of 65 well-known asset pricing factors in the cross-section
+ of US stock returns.
+ The authors aim to identify which factors are truly robust in explaining
+ the variation in stock returns, and whether some factors are merely redundant
+ or can be subsumed by others.
+\end_layout
+
+\begin_layout Standard
+The authors employ a two-pass regression methodology and out-of-sample tests
+ to assess the performance of these factors.
+ They also investigate the importance of controlling for microcaps (stocks
+ with the smallest market capitalizations) in their analysis, as these stocks
+ can have a substantial impact on the results.
+\end_layout
+
+\begin_layout Standard
+The study finds that only a small subset of factors are robust in explaining
+ the cross-section of stock returns.
+ Specifically, the authors identify five factors that are consistently significa
+nt and robust across various test specifications:
+\end_layout
+
+\begin_layout Standard
+The market factor (MKT): The excess return of the market portfolio over
+ the risk-free rate.
+ The size factor (SMB): The difference in returns between small-cap and
+ large-cap stocks.
+ The investment factor (CMA): The difference in returns between firms with
+ low and high investment-to-capital ratios.
+ The profitability factor (RMW): The difference in returns between firms
+ with high and low profitability (measured by gross profits-to-assets).
+ The momentum factor (MOM): The difference in returns between stocks with
+ high and low past 12-month returns, excluding the most recent month.
+ The authors also find that controlling for microcaps is important, as excluding
+ them from the analysis leads to weaker factor performance.
+ Additionally, the study reveals that many of the other factors considered
+ in the literature are either redundant or can be explained by the five
+ robust factors mentioned above.
+\end_layout
+
+\begin_layout Standard
+In conclusion, Hou et al.'s (2019) paper provides valuable insights into
+ the performance of various asset pricing factors and highlights the importance
+ of focusing on a small set of robust factors when analyzing the cross-section
+ of stock returns.
+ Their findings have important implications for both academic research and
+ practical applications in asset pricing and portfolio management.
+\end_layout
+
+\begin_layout Section
+Stambaugh, R.
+ F.
+ (2017).
+ Mispricing factors.
+ The Review of Financial Studies, 30(4), 1270-1315.
+\end_layout
+
+\begin_layout Standard
+In this paper, Robert F.
+ Stambaugh proposes an approach for building factors that are better suited
+ to capturing mispricing in stock returns rather than just risk-based factors.
+ He argues that conventional factor models, such as the Fama-French three-factor
+ model, may not accurately measure mispricing because they are designed
+ to capture risk-related variation in stock returns.
+\end_layout
+
+\begin_layout Standard
+Stambaugh's approach involves constructing factors that measure the difference
+ between a stock's forecasted return and its realized return.
+ The forecasted return is based on a model that incorporates several known
+ return predictors.
+ When the realized return deviates significantly from the forecast, it suggests
+ the presence of mispricing.
+ By creating factors that capture these deviations, Stambaugh aims to build
+ a factor model that can better identify mispriced stocks.
+\end_layout
+
+\begin_layout Standard
+To test the effectiveness of his approach, Stambaugh constructs a four-factor
+ mispricing model that includes the market factor (MKT) and three mispricing
+ factors:
+\end_layout
+
+\begin_layout Standard
+The underreaction factor (UR): This factor captures the difference between
+ the realized return and the forecasted return for stocks that are expected
+ to experience positive returns due to underreaction to news or other informatio
+n.
+ The overreaction factor (OR): This factor captures the difference between
+ the realized return and the forecasted return for stocks that are expected
+ to experience negative returns due to overreaction to news or other information.
+ The cash flow-to-price factor (CP): This factor measures the difference
+ between the realized return and the forecasted return for stocks with high
+ cash flow-to-price ratios, which are typically considered value stocks.
+ Stambaugh compares the performance of his mispricing model to the Fama-French
+ three-factor model and finds that his model better explains the cross-section
+ of stock returns.
+ Specifically, the mispricing model captures more variation in returns and
+ better identifies stocks with high future returns.
+ Additionally, the mispricing factors exhibit lower correlations with the
+ Fama-French factors, suggesting that they capture different sources of
+ variation in stock returns.
+\end_layout
+
+\begin_layout Standard
+In conclusion, Stambaugh's (2017) paper presents a novel approach to building
+ factors that are better suited to capturing mispricing in stock returns.
+ This approach has important implications for both academic research and
+ practical applications in asset pricing and portfolio management.
+ By focusing on mispricing factors, investors may be able to identify and
+ exploit mispriced stocks more effectively.
+\end_layout
+
+\begin_layout Section
+Eberhart, A.
+ C., Maxwell, W.
+ F., & Siddique, A.
+ R.
+ (2004).
+ An examination of long-term abnormal stock returns and operating performance
+ following R&D increases.
+ Journal of Finance, 59(2), 623-650.
+\end_layout
+
+\begin_layout Standard
+In this paper, Eberhart, Maxwell, and Siddique investigate the long-term
+ stock returns and operating performance of firms that increase their research
+ and development (R&D) expenditures.
+ The authors hypothesize that the stock market may undervalue the benefits
+ of R&D investments, leading to abnormal stock returns for firms that increase
+ their R&D spending.
+\end_layout
+
+\begin_layout Standard
+The study uses a sample of firms that experienced substantial increases
+ in R&D expenditures between 1975 and 1998.
+ The authors examine the stock returns and operating performance of these
+ firms for up to five years after the R&D increase, comparing them to a
+ control group of firms that did not experience significant changes in R&D
+ spending.
+\end_layout
+
+\begin_layout Standard
+Key findings of the study include:
+\end_layout
+
+\begin_layout Standard
+Firms with R&D increases experience positive abnormal stock returns for
+ up to five years after the R&D increase.
+ These returns are statistically significant and economically meaningful,
+ suggesting that the stock market initially underestimates the benefits
+ of increased R&D investments.
+ The positive abnormal stock returns are more pronounced for firms with
+ higher market-to-book ratios and lower institutional ownership, indicating
+ that the undervaluation of R&D investments is more likely to occur in growth
+ firms and those with less institutional investor attention.
+ Firms with R&D increases exhibit improvements in operating performance
+ relative to the control group.
+ This improvement is observed across various measures of operating performance,
+ including return on assets (ROA), gross margin, and sales growth.
+ The improved operating performance following R&D increases is primarily
+ driven by growth in sales and gross margin rather than cost reductions,
+ suggesting that increased R&D investments lead to product and market innovation
+s that enhance firms' revenue-generating capabilities.
+ In conclusion, Eberhart et al.'s (2004) paper provides evidence that firms
+ that increase their R&D expenditures experience positive long-term abnormal
+ stock returns and improvements in operating performance.
+ The findings suggest that the stock market may initially undervalue the
+ benefits of R&D investments, presenting potential opportunities for investors
+ to exploit this mispricing.
+ The study also highlights the importance of R&D investments for firms'
+ long-term growth and competitiveness.
+\end_layout
+
+\begin_layout Section
+Chan, L.
+ K., Lakonishok, J., & Sougiannis, T.
+ (2001).
+ The stock market valuation of research and development expenditures.
+ The Journal of Finance, 56(6), 2431-2456.
+\end_layout
+
+\begin_layout Standard
+In this paper, Chan, Lakonishok, and Sougiannis investigate the relationship
+ between research and development (R&D) expenditures and stock returns.
+ They examine whether the stock market appropriately values R&D investments
+ and assess the long-term implications of R&D on firms' operating performance.
+\end_layout
+
+\begin_layout Standard
+The study uses a sample of U.S.
+ firms from 1975 to 1995, focusing on firms with positive R&D expenditures.
+ The authors employ various portfolio-based and regression-based tests to
+ analyze the relationships between R&D expenditures, stock returns, and
+ operating performance.
+\end_layout
+
+\begin_layout Standard
+Key findings of the study include:
+\end_layout
+
+\begin_layout Standard
+Firms with high R&D expenditures, relative to their market capitalization,
+ tend to have lower market-to-book ratios.
+ This finding suggests that the stock market may undervalue the benefits
+ of R&D investments, particularly for high R&D intensity firms.
+ Firms with high R&D intensity experience higher future stock returns.
+ The authors find a positive relationship between R&D intensity and future
+ stock returns, which is robust to various controls, including size, book-to-mar
+ket ratio, and past returns.
+ This result indicates that the market underreacts to the information contained
+ in R&D investments, leading to abnormal returns for high R&D intensity
+ firms.
+ Firms with high R&D intensity exhibit improvements in operating performance.
+ The study finds that firms with high R&D investments experience higher
+ future sales growth, return on assets (ROA), and gross margin, indicating
+ that R&D investments contribute positively to firms' long-term growth and
+ profitability.
+ The market's underreaction to R&D investments is more pronounced for firms
+ with low analyst coverage and institutional ownership, as well as for firms
+ in industries with lower R&D intensity.
+ These findings suggest that the market's undervaluation of R&D investments
+ is more likely to occur when there is less public information or attention
+ focused on the firm or industry.
+ In conclusion, Chan et al.'s (2001) paper provides evidence that the stock
+ market tends to undervalue the benefits of R&D investments, particularly
+ for firms with high R&D intensity.
+ The study demonstrates that high R&D intensity firms experience higher
+ future stock returns and improvements in operating performance, highlighting
+ the importance of R&D investments for long-term growth and competitiveness.
+ The findings also suggest potential opportunities for investors to exploit
+ the market's underreaction to R&D expenditures.
+\end_layout
+
+\end_body
+\end_document

@@ -1,5 +1,3 @@
-# install.packages(c("tidyverse", "lubridate", "scales", "RSQLite", "dbplyr", "RPostgres", "frenchdata","sandwich"))
-
 library(tidyverse)
 library(lubridate)
 library(scales)
@@ -8,44 +6,24 @@ library(dbplyr)
 library(RPostgres)
 library(frenchdata)
 library(sandwich)
+library(mice)
+library(ggthemes)
 
 rm(list = ls())
 
 setwd("/Users/tobiasbrammer/Library/Mobile Documents/com~apple~CloudDocs/Documents/Aarhus Uni/8. semester/5362-Empirical-Asset-Pricing/Project/Data")
 
-start_date <- ymd("1970-01-01")
-end_date <- ymd("2019-12-31")
+start_date <- ymd("1963-07-01")
+end_date <- ymd("2022-12-31")
 
-########## Returns Data and Factors ##########
-### FF3 ###
-factors_ff_monthly_raw <- download_french_data("Fama/French 3 Factors")
-factors_ff_monthly <- factors_ff_monthly_raw$subsets$data[[1]] |>
-  transmute(
-    month = floor_date(ymd(str_c(date, "01")), "month"),
-    rf = as.numeric(RF) / 100,
-    mkt_excess = as.numeric(`Mkt-RF`) / 100,
-    smb = as.numeric(SMB) / 100,
-    hml = as.numeric(HML) / 100
-  ) |>
-  filter(month >= start_date & month <= end_date)
-
-# Create database
+##### Create/connect to local database #####
 db_connection <- dbConnect(
   SQLite(),
   "data/db_connection.sqlite",
   extended_types = TRUE
 )
 
-# Write table
-dbWriteTable(db_connection,
-             "factors_ff_monthly",
-             value = factors_ff_monthly,
-             overwrite = TRUE
-)
-
-factors_ff_monthly_db <- tbl(db_connection, "factors_ff_monthly")
-
-### CRSP Database ###
+### Connect to CRSP Database ###
 wrds <- dbConnect(
   Postgres(),
   host = "wrds-pgdata.wharton.upenn.edu",
@@ -56,6 +34,29 @@ wrds <- dbConnect(
   password = "naqgUf-bantas-1ruwby"
 )
 
+########## Returns Data and Factors ##########
+### FF5 ###
+factors_ff_monthly_raw <- download_french_data("Fama/French 5 Factors (2x3)")
+factors_ff_monthly <- factors_ff_monthly_raw$subsets$data[[1]] |>
+  transmute(
+    month = floor_date(ymd(str_c(date, "01")), "month"),
+    rf = as.numeric(RF) / 100,
+    mkt_excess = as.numeric(`Mkt-RF`) / 100,
+    smb = as.numeric(SMB) / 100,
+    hml = as.numeric(HML) / 100,
+    rmw = as.numeric(RMW) / 100,
+    cma = as.numeric(CMA) / 100,
+  ) |>
+  filter(month >= start_date & month <= end_date)
+
+# Write table
+dbWriteTable(db_connection,
+             "factors_ff_monthly",
+             value = factors_ff_monthly,
+             overwrite = TRUE
+)
+
+########## CRSP Data ##########
 # the CRSP monthly security file,
 msf_db <- tbl(wrds, in_schema("crsp", "msf"))
 
@@ -87,15 +88,15 @@ crsp_monthly <- msf_db |>
   ) |>
   select(
     permno, # Security identifier
-    date, # Date of the observation
-    month, # Month of the observation
-    ret, # Return
+    date,   # Date of the observation
+    month,  # Month of the observation
+    ret,    # Return
     shrout, # Shares outstanding (in thousands)
     altprc, # Last traded price in a month
     exchcd, # Exchange code
-    siccd, # Industry code
-    dlret, # Delisting return
-    dlstcd # Delisting code
+    siccd,  # Industry code
+    dlret,  # Delisting return
+    dlstcd  # Delisting code
   ) |>
   collect() |>
   mutate(
@@ -136,14 +137,13 @@ crsp_monthly <- crsp_monthly |>
     mktcap = na_if(mktcap, 0)
   )
 
-
 # One-month lagged market cap.
-mktcap_lag <- crsp_monthly |>
-  mutate(month = month %m+% months(1)) |>
-  select(permno, month, mktcap_lag = mktcap)
+#mktcap_lag <- crsp_monthly |>
+#  mutate(month = month %m+% months(1)) |>
+#  select(permno, month, mktcap_lag = mktcap)
 
-crsp_monthly <- crsp_monthly |>
-  left_join(mktcap_lag, by = c("permno", "month"))
+#crsp_monthly <- crsp_monthly |>
+#  left_join(mktcap_lag, by = c("permno", "month"))
 
 # Reflect the returns of investors who bought a stock in the month before
 # delisting and held it until the delisting date. 
@@ -159,7 +159,6 @@ crsp_monthly <- crsp_monthly |>
   select(-c(dlret, dlstcd))
 
 # Join with FF
-
 factors_ff_monthly <- tbl(db_connection, "factors_ff_monthly") |>
   collect()
 
@@ -173,27 +172,16 @@ crsp_monthly <- crsp_monthly |>
   ) |>
   select(-ret_adj, -rf)
 
-# Order by date and calculate cumulative returns for each stock
+# Calculate cumulative returns
 crsp_monthly <- crsp_monthly |>
   group_by(permno) |>
-  arrange(date) |>
-  mutate(ret_cum = cumprod(1 + ret_excess) - 1)
-
-# Plot cumulative returns
-crsp_monthly |>
-  filter(permno == 14593) |>
-  ggplot(aes(x = date, y = ret_cum)) +
-  geom_line() +
-  labs(
-    x = NULL, y = NULL,
-    title = "Cumulative Returns of a Microsoft"
-  ) +
-  scale_x_date(date_breaks = "10 years", date_labels = "%Y") +
-  scale_y_continuous(labels = percent)
+  mutate(
+    ret_cum = cumprod(1 + ret_excess) - 1
+  )
 
 # Drop observations with no market cap and no returns
 crsp_monthly <- crsp_monthly |>
-  drop_na(ret_excess, mktcap, mktcap_lag)
+  drop_na(ret_excess, ret_cum, mktcap)
 
 # Store in DB
 dbWriteTable(db_connection,
@@ -202,9 +190,6 @@ dbWriteTable(db_connection,
              overwrite = TRUE
 )
 
-# Get crsp_monthly from DB
-crsp_monthly <- tbl(db_connection, "crsp_monthly") |>
-  collect()
 
 ########## Compustat Fundamentals ##########
 funda_db <- tbl(wrds, in_schema("comp", "funda"))
@@ -216,8 +201,8 @@ compustat <- funda_db |>
   filter(
     indfmt == "INDL" &
       datafmt == "STD" &
-      consol == "C" &
-      datadate >= start_date & datadate <= end_date
+      consol == "C"
+      & datadate >= start_date & datadate <= end_date
   ) |>
   select(
     gvkey, # Firm identifier
@@ -232,77 +217,66 @@ compustat <- funda_db |>
     sale, # Sales
     revt, # Total revenue
     xrd, # R&D
+    oancf, # Operating cash flow
+    ni, # Net income
+    dltt, # Long-term Debts
+    dlc, # Debt in current Liabilities
     pstkrv, # Preferred stock redemption value
     pstkl, # Preferred stock liquidating value
     pstk, # Preferred stock par value
-    capx, # Capital investment
-    oancf # Operating cash flow
+    capx  # Capital investment
   ) |>
   collect()
 
-# Calculate the book value of preferred stock and equity
-compustat <- compustat |>
-  mutate(
-    be = coalesce(seq, ceq + pstk, at - lt) +
-      coalesce(txditc, txdb + itcb, 0) -
-      coalesce(pstkrv, pstkl, pstk, 0),
-    be = if_else(be <= 0, as.numeric(NA), be)
-  )
+# Drop varialbes that are not needed anymore
+#compustat <- compustat |>
+#  select(-c(seq, ceq, txditc, txdb, itcb, pstkrv, pstkl, pstk, sale))
 
+
+# Record the month and year of the accounting data
 compustat <- compustat |>
-  mutate(month = month(datadate),
+  mutate(month_num = month(datadate),
+         month = floor_date(ymd(datadate), unit = "month"),
          year = year(datadate)
          )
 
-# Year lagged sales.
-sale_lag <- compustat |>
-  mutate(datadate = datadate %m+% months(12),
-         month = month(datadate),
-         year = year(datadate),
-         sale = sale) |>
-  select(gvkey, c(month, year), sale_lag = sale)
+# Year lagged revenue.
+#revt_lag <- compustat |>
+#      mutate(datadate = datadate %m+% months(12)) |>
+#  select(gvkey, datadate, revt_lag = revt)
 
-compustat <- compustat |>
-  left_join(sale_lag, by = c("gvkey", c("month", "year")))
 
-# Calculate sales growth
-compustat <- compustat |>
-  mutate(
-    sale_g = coalesce(if_else(sale <= 0, as.numeric(NA), log(sale)) - 
-                        if_else(sale_lag <= 0, as.numeric(NA), log(sale_lag)),
-                      0)
-  )
+#compustat <- compustat |>
+#  left_join(revt_lag, by = c("gvkey", "datadate"))
 
-# Year lagged sales growth.
-sale_g_lag <- compustat |>
-  mutate(datadate = datadate %m+% months(12),
-         month = month(datadate),
-         year = year(datadate),
-         sale_g = sale_g) |>
-  select(gvkey, c(month, year), sale_g_lag = sale_g)
+#compustat <- compustat |>
+#  mutate(revt_lag = if_else(is.na(revt_lag), NA, revt_lag))
 
-compustat <- compustat |>
-  left_join(sale_g_lag, by = c("gvkey", c("month", "year")))
+# Calculate revenue growth
+#compustat <- compustat |>
+#  mutate(
+#    revt_g = coalesce(if_else(revt <= 0, NA, log(revt)) - 
+#                      if_else(revt_lag <= 0, NA, log(revt_lag)),
+#                      NA),
+#    revt_g = if_else(is.na(revt_g), NA, revt_g)
+#  )
+
 
 # Year lagged Investments
-invest_lag <- compustat |>
-  mutate(datadate = datadate %m+% months(12),
-         month = month(datadate),
-         year = year(datadate),
-         capx = capx,
-         at = at,
-         lt = lt) |>
-  select(gvkey, c(month, year), capx_lag = capx, at_lag = at, lt_lag = lt)
+# invest_lag <- compustat |>
+#  mutate(datadate = datadate %m+% months(12)) |>
+#  select(gvkey, datadate, capx_lag = capx, at_lag = at, lt_lag = lt)
+
+# compustat <- compustat |>
+#  left_join(invest_lag, by = c("gvkey", "datadate"))
 
 compustat <- compustat |>
-  left_join(invest_lag, by = c("gvkey", c("month", "year")))
+  mutate(
+    xrd = replace_na(xrd,0),
+    capx = replace_na(capx,0),
+    oancf = replace_na(oancf,0)
+  )
 
-# We keep only the last available information for each firm-year group.
-compustat <- compustat |>
-  mutate(year = year(datadate)) |>
-  group_by(gvkey, year) |>
-  filter(datadate == max(datadate)) |>
-  ungroup()
 
 # Store in DB
 dbWriteTable(db_connection,
@@ -311,15 +285,13 @@ dbWriteTable(db_connection,
              overwrite = TRUE
 )
 
-############ Merge with CRSP ########## 
-# Get the matching table from CRSP
-ccmxpf_linktable_db <- tbl(
-  wrds,
-  in_schema("crsp", "ccmxpf_linktable")
-)
+summary(compustat)
 
-# Only keep relevant info
-ccmxpf_linktable <- ccmxpf_linktable_db |>
+############ Merge with CRSP ########## 
+
+
+# Get the matching table from CRSP
+ccmxpf_linktable <- tbl(wrds, in_schema("crsp", "ccmxpf_linktable")) |>
   filter(linktype %in% c("LU", "LC") &
            linkprim %in% c("P", "C") &
            usedflag == 1) |>
@@ -344,21 +316,44 @@ dbWriteTable(db_connection,
 )
 
 ########## Create full dataset ########## 
+head(crsp_monthly)
+head(compustat)
 
-# Left join compustat with CRSP using gvkey and year
+n_distinct(crsp_monthly$gvkey)
+n_distinct(compustat$gvkey)
+
 data <- crsp_monthly |>
-  group_by(permno, year = year(month)) |>
-  filter(date == max(date)) |>
-  ungroup() |>
-  left_join(compustat, by = c("gvkey", "year"))
-
-# Rename data$month.y to data$month_num and data$month.x to data$month
-data <- data |>
-  rename(month_num = month.y, month = month.x)
+  group_by(gvkey, month) |>
+  left_join(compustat, by = c("gvkey", "month"))
 
 ### Drop where exchange is Other ###
 data <- data |>
   filter(exchange != "Other")
+
+# Calculate the book value of preferred stock and equity
+data <- data |>
+  mutate(
+    be = coalesce(seq, ceq + pstk, at - lt) +
+      coalesce(txditc, txdb + itcb, 0) -
+      coalesce(pstkrv, pstkl, pstk, 0),
+    be = if_else(be <= 0, as.numeric(NA), be),
+    lev = coalesce((dltt + dlc)/at,NA),
+    profit = coalesce(ni/at,NA),
+    fcf = coalesce(oancf - capx, NA)
+  )
+
+
+data <- data |>
+  select(-c(seq,ceq,txditc,txdb,itcb,sale,oancf,dlc,dltt,pstkrv,pstk,exchcd,siccd))
+
+
+data <- data |>
+  drop_na(at, lt, revt, xrd, ni, pstkl, capx, month_num, year, be, lev, profit, fcf)
+
+# Number of stocks
+n_distinct(data$gvkey)
+
+dim(data)
 
 # Write to DB
 dbWriteTable(db_connection,
@@ -369,3 +364,5 @@ dbWriteTable(db_connection,
 
 # Optimize DB
 dbExecute(db_connection, "VACUUM;")
+
+
