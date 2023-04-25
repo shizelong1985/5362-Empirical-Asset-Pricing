@@ -49,6 +49,18 @@ factors_ff_monthly <- factors_ff_monthly_raw$subsets$data[[1]] |>
   ) |>
   filter(month >= start_date & month <= end_date)
 
+# Convert to yearly returns ([(1 + 0.01) ^ 12 – 1] )
+factors_ff_yearly <- factors_ff_monthly |>
+  mutate(
+    rf = (1 + rf) ^ 12 - 1,
+    mkt_excess = (1 + mkt_excess) ^ 12 - 1,
+    smb = (1 + smb) ^ 12 - 1,
+    hml = (1 + hml) ^ 12 - 1,
+    rmw = (1 + rmw) ^ 12 - 1,
+    cma = (1 + cma) ^ 12 - 1
+  ) |>
+  filter(month(month) == 12)
+
 # Write table
 dbWriteTable(db_connection,
              "factors_ff_monthly",
@@ -130,6 +142,10 @@ crsp_monthly <- crsp_monthly |>
     TRUE ~ "Missing"
   ))
 
+# # Only keep where month = 12
+# crsp_monthly <- crsp_monthly |>
+#   filter(month(month) == 12)
+
 # Market cap
 crsp_monthly <- crsp_monthly |>
   mutate(
@@ -137,51 +153,40 @@ crsp_monthly <- crsp_monthly |>
     mktcap = na_if(mktcap, 0)
   )
 
-# One-month lagged market cap.
-#mktcap_lag <- crsp_monthly |>
-#  mutate(month = month %m+% months(1)) |>
-#  select(permno, month, mktcap_lag = mktcap)
-
-#crsp_monthly <- crsp_monthly |>
-#  left_join(mktcap_lag, by = c("permno", "month"))
-
-# Reflect the returns of investors who bought a stock in the month before
-# delisting and held it until the delisting date. 
-crsp_monthly <- crsp_monthly |>
-  mutate(ret_adj = case_when(
-    is.na(dlstcd) ~ ret,
-    !is.na(dlstcd) & !is.na(dlret) ~ dlret,
-    dlstcd %in% c(500, 520, 580, 584) |
-      (dlstcd >= 551 & dlstcd <= 574) ~ -0.30,
-    dlstcd == 100 ~ ret,
-    TRUE ~ -1
-  )) |>
-  select(-c(dlret, dlstcd))
-
-# Join with FF
-factors_ff_monthly <- tbl(db_connection, "factors_ff_monthly") |>
-  collect()
-
 crsp_monthly <- crsp_monthly |>
   left_join(factors_ff_monthly |> select(month, rf),
             by = "month"
   ) |>
   mutate(
-    ret_excess = ret_adj - rf,
+    ret_excess = ret - rf,
     ret_excess = pmax(ret_excess, -1)
   ) |>
-  select(-ret_adj, -rf)
+  select(-ret, -rf)
+
+
+# Drop observations with no market cap and no returns
+crsp_monthly <- crsp_monthly |>
+  drop_na(ret_excess, mktcap)
+
 
 # Calculate cumulative returns
 crsp_monthly <- crsp_monthly |>
   group_by(permno) |>
   mutate(
-    ret_cum = cumprod(1 + ret_excess) - 1
+    ret_cum = cumsum(ret_excess)
   )
 
-# Drop observations with no market cap and no returns
-crsp_monthly <- crsp_monthly |>
-  drop_na(ret_excess, ret_cum, mktcap)
+# Distribution of returns
+crsp_monthly %>% 
+  ggplot(aes(x = ret_excess)) +
+  geom_histogram(bins = 100) +
+  scale_x_continuous(labels = percent) +
+  theme_economist() +
+  labs(
+    title = "Distribution of yearly returns",
+    x = "Return",
+    y = "Frequency"
+  )
 
 # Store in DB
 dbWriteTable(db_connection,
@@ -189,7 +194,6 @@ dbWriteTable(db_connection,
              value = crsp_monthly,
              overwrite = TRUE
 )
-
 
 ########## Compustat Fundamentals ##########
 funda_db <- tbl(wrds, in_schema("comp", "funda"))
@@ -228,11 +232,6 @@ compustat <- funda_db |>
   ) |>
   collect()
 
-# Drop varialbes that are not needed anymore
-#compustat <- compustat |>
-#  select(-c(seq, ceq, txditc, txdb, itcb, pstkrv, pstkl, pstk, sale))
-
-
 # Record the month and year of the accounting data
 compustat <- compustat |>
   mutate(month_num = month(datadate),
@@ -240,35 +239,9 @@ compustat <- compustat |>
          year = year(datadate)
          )
 
-# Year lagged revenue.
-#revt_lag <- compustat |>
-#      mutate(datadate = datadate %m+% months(12)) |>
-#  select(gvkey, datadate, revt_lag = revt)
-
-
-#compustat <- compustat |>
-#  left_join(revt_lag, by = c("gvkey", "datadate"))
-
-#compustat <- compustat |>
-#  mutate(revt_lag = if_else(is.na(revt_lag), NA, revt_lag))
-
-# Calculate revenue growth
-#compustat <- compustat |>
-#  mutate(
-#    revt_g = coalesce(if_else(revt <= 0, NA, log(revt)) - 
-#                      if_else(revt_lag <= 0, NA, log(revt_lag)),
-#                      NA),
-#    revt_g = if_else(is.na(revt_g), NA, revt_g)
-#  )
-
-
-# Year lagged Investments
-# invest_lag <- compustat |>
-#  mutate(datadate = datadate %m+% months(12)) |>
-#  select(gvkey, datadate, capx_lag = capx, at_lag = at, lt_lag = lt)
-
+# # Keep only month = 12
 # compustat <- compustat |>
-#  left_join(invest_lag, by = c("gvkey", "datadate"))
+#   filter(month_num == 12)
 
 compustat <- compustat |>
   mutate(
@@ -315,7 +288,28 @@ dbWriteTable(db_connection,
              overwrite = TRUE
 )
 
+
+crsp_monthly |>
+  ggplot(aes(x = ret_excess)) +
+  geom_histogram(bins = 50) +
+  labs(
+    title = "Distribution of excess returns",
+    x = "Excess return",
+    y = "Frequency"
+  ) +
+  theme_economist() +
+  scale_color_economist() +
+  scale_x_continuous(labels = percent)
+
+
+
 ########## Create full dataset ########## 
+crsp_monthly <- tbl(db_connection, "crsp_monthly") |>
+  collect()
+
+compustat <- tbl(db_connection, "compustat") |>
+  collect()
+
 head(crsp_monthly)
 head(compustat)
 
@@ -326,6 +320,20 @@ data <- crsp_monthly |>
   group_by(gvkey, month) |>
   left_join(compustat, by = c("gvkey", "month"))
 
+# Write to DB
+dbWriteTable(db_connection,
+             "data",
+             value = data,
+             overwrite = TRUE
+)
+
+# Optimize DB
+dbExecute(db_connection, "VACUUM;")
+dbExecute(db_connection, "ANALYZE;")
+
+data <- tbl(db_connection, "data") |>
+  collect()
+
 ### Drop where exchange is Other ###
 data <- data |>
   filter(exchange != "Other")
@@ -335,17 +343,22 @@ data <- data |>
   mutate(
     be = coalesce(seq, ceq + pstk, at - lt) +
       coalesce(txditc, txdb + itcb, 0) -
-      coalesce(pstkrv, pstkl, pstk, 0),
+      coalesce(pstkrv, pstkl, pstk, 0)
+  )
+
+data <- data |>
+  mutate(
     be = if_else(be <= 0, as.numeric(NA), be),
     lev = coalesce((dltt + dlc)/at,NA),
     profit = coalesce(ni/at,NA),
+    oancf = coalesce(oancf,NA),
     fcf = coalesce(oancf - capx, NA)
   )
 
 
+
 data <- data |>
   select(-c(seq,ceq,txditc,txdb,itcb,sale,oancf,dlc,dltt,pstkrv,pstk,exchcd,siccd))
-
 
 data <- data |>
   drop_na(at, lt, revt, xrd, ni, pstkl, capx, month_num, year, be, lev, profit, fcf)
