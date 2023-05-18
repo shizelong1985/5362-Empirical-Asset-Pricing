@@ -43,33 +43,6 @@ data <- data |>
     year = year(month)
   )
 
-# # Transform data to quarterly frequency and select all variables
-# data <- data |>
-#   group_by(permno, year) |>
-#   summarise(
-#     # Variables
-#     at = sum(at),
-#     lt = sum(lt),
-#     be = sum(be),
-#     capx = sum(capx),
-#     mktcap = sum(mktcap),
-#     revt = sum(revt),
-#     fcf = sum(fcf),
-#     lev = sum(lev),
-#     ni = sum(ni),
-#     profit = sum(profit),
-#     xrd = sum(xrd),
-#     ret_excess = sum(ret_excess),
-#     ret_cum = sum(ret_cum),
-#     datadate = first(datadate),
-#     date = first(date),
-#     industry = first(industry),
-#     exchange = first(exchange),
-#     n = n()
-#   )
-
-
-
 # Calculate Tobin's Q
 data <- data |>
   mutate(
@@ -98,6 +71,7 @@ data <- data |>
     profit_lag = coalesce(lag(profit),0),
   ) |>
   ungroup()
+
 # Compute variables
 data <- data |>
   mutate(
@@ -138,7 +112,6 @@ data |>
     x = "Number of observations",
     y = "Frequency"
   ) +
-  # Breaks every 10
   scale_x_continuous(breaks = seq(0, 1000, by = 5)) +
   theme_economist() +
   scale_color_economist()
