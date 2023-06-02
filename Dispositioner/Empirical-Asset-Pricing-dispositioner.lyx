@@ -1,0 +1,2197 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Subsection*
+Return predictability
+\end_layout
+
+\begin_layout Subsubsection*
+Introduction
+\end_layout
+
+\begin_layout Standard
+An ongoing debate in finance is whether excess returns on financial assets
+ are predictable.
+ Return predictability is typically studied using a predictive regression
+ model
+\begin_inset Formula 
+\[
+r_{t+1}=\alpha+x_{t}'\beta+\epsilon_{t+1},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $r_{t+1}$
+\end_inset
+
+is the one-period ahead log excess return on the asset, 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ is a predictor variable, 
+\begin_inset Formula $\epsilon_{t+1}$
+\end_inset
+
+ is a zero-mean disturbance term, and if 
+\begin_inset Formula $\beta\ne0$
+\end_inset
+
+, it implies that returns are predictable.
+ If excess returns are predictable, then the expected excess returns vary
+ over time as a function of 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+, i.e.
+\begin_inset Formula 
+\[
+E[r_{t}]=\hat{\alpha}+x_{t}'\hat{\beta}.
+\]
+
+\end_inset
+
+A classical example of stock return predictability is using the dividend-price
+ ratio, which was defined by Campbell and Shiller.
+ Starting form the definition of log returns, we have
+\begin_inset Formula 
+\[
+r_{t+1}=ln(P_{t+1}+D_{t+1})-ln(P_{t})=p_{t+1}-p_{t}+ln[1+exp(d_{t+1}-p_{t+1})].
+\]
+
+\end_inset
+
+Taking a second order Taylor approximation yields
+\begin_inset Formula 
+\[
+r_{t+1}\approx\kappa+\phi p_{t+1}+(1-\phi)d_{t+1}-p_{t},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\phi=1/[1+exp(d-p)]$
+\end_inset
+
+ and 
+\begin_inset Formula $\kappa=-ln\phi-(1-\phi)ln(1/\phi-1)$
+\end_inset
+
+.
+ Solving for 
+\begin_inset Formula $p_{t}$
+\end_inset
+
+ and taking expectations yields
+\begin_inset Formula 
+\begin{align*}
+p_{t} & =\frac{\kappa}{1-\phi}+E_{t}\left[\sum_{j=0}^{\infty}\phi^{j}((1-\phi)d_{t+1+j}-r_{t+1+j})\right]\\
+d_{t}-p_{t} & =\frac{-\kappa}{1-\phi}+E_{t}\left[\sum_{j=0}^{\infty}\phi^{j}(-∆d_{t+1+j}+r_{t+1+j})\right]
+\end{align*}
+
+\end_inset
+
+This tells us that if the dividend-price ratio varies over time, this must
+ reflect predictable changes in either future dividends, future returns,
+ or some combinations of the two.
+ 
+\color red
+
+\begin_inset Newline newline
+\end_inset
+
+
+\color black
+Next I would like to talk about Stambaugh's finite sample bias by considering
+ the following equation system 
+\begin_inset Formula 
+\begin{align*}
+r_{t+1} & =\alpha+\beta x_{t}+\epsilon_{t+1},\qquad\epsilon_{t+1}\overset{iid}{\sim}N(0,\sigma_{\epsilon}^{2})\\
+x_{t+1} & =\lambda+\rho x_{t}+\nu_{t+1},\qquad\nu_{t+1}\overset{iid}{\sim}N(0,\sigma_{\nu}^{2})
+\end{align*}
+
+\end_inset
+
+where the predictor 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ follows an AR(1) process, and 
+\begin_inset Formula $\epsilon_{t+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\nu_{t+1}$
+\end_inset
+
+ are white noise errors with covariance 
+\begin_inset Formula $\sigma_{\epsilon\nu}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\sigma_{\epsilon\nu}=0$
+\end_inset
+
+, we have no bias, otherwise we have a Stambaugh bias.
+ An estimator is biased if on average it tends to be too high or too low
+ relative to the true value.
+ The OLS estimate of 
+\begin_inset Formula $\rho$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{p}$
+\end_inset
+
+, is downward-biased in finite samples
+\begin_inset Formula 
+\[
+E[\hat{\rho}-\rho]\approx-\left(\frac{1+3\rho}{T}\right),
+\]
+
+\end_inset
+
+from which the bias in 
+\begin_inset Formula $\hat{\beta}$
+\end_inset
+
+ then is given by
+\begin_inset Formula 
+\begin{align*}
+E[\hat{\beta}-\beta] & =\underset{\gamma}{\underbrace{\frac{\sigma_{\epsilon\nu}}{\sigma_{\nu}^{2}}}}E[\hat{\rho}-\rho]\approx-\gamma\left(\frac{1+3\rho}{T}\right)
+\end{align*}
+
+\end_inset
+
+If 
+\begin_inset Formula $\epsilon_{t+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\nu_{t+1}$
+\end_inset
+
+ are negatively correlated, then 
+\begin_inset Formula $\gamma<0$
+\end_inset
+
+ and the downward bias in 
+\begin_inset Formula $\hat{\rho}$
+\end_inset
+
+ produces an upward bias in 
+\begin_inset Formula $\hat{\beta}$
+\end_inset
+
+.
+ The bias is increasing in 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho$
+\end_inset
+
+, but decreasing in the sample size 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ This is also the case for the dividend-price ratio, where an unexpected
+ increase in 
+\begin_inset Formula $p_{t+1}$
+\end_inset
+
+ leads to a negative 
+\begin_inset Formula $\nu_{t+1}$
+\end_inset
+
+ and an unexpected increase in 
+\begin_inset Formula $r_{t+1}$
+\end_inset
+
+ and therefore a positive 
+\begin_inset Formula $\epsilon_{t+1}$
+\end_inset
+
+.
+ Despite this small sample bias, we can still conduct valid inference using
+ e.g.
+ bootstrapping techniques.
+ The idea is to evaluate the biased coefficient in an empirical finite sample
+ distribution that suffers from the bias, because then we have valid inference.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Out-of-sample predictability
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Assessing predictability in-sample entails estimating the predictive regression
+ using the full range of available observation, but assessing out-of-sample
+ predictability, conversely entails using information available at time
+ 
+\begin_inset Formula $t$
+\end_inset
+
+ only to forecast returns at time 
+\begin_inset Formula $t+1$
+\end_inset
+
+.
+ To emulate a forecaster in real-time, we can split the total sample into
+ an in-sample and an out-of-sample.
+ Even though there is no optimal sample-split choice, it is still crucial,
+ because different sample-split choices change the results.
+ The regression coefficients can be estimated using either a rolling or
+ an expanding window of data.
+ The benefit of using an expanding window is that as you move through time
+ you add more observations, and thus hopefully the estimates will be estimated
+ with higher precision.
+ However, if 
+\begin_inset Formula $\beta$
+\end_inset
+
+ moves, the expanding will be slow to pick up changes.
+ The rolling window works well if 
+\begin_inset Formula $\beta$
+\end_inset
+
+ moves, because it uses a smaller time-span.
+ However, it does not improve the estimates over time.
+ Irrespective of the choice, we end up with a sequence of forecasts and
+ forecast errors for evaluation.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We can test our regression model against the natural benchmark, which is
+ a historical average that assumes no predictability/constant expected excess
+ returns, i.e., 
+\begin_inset Formula $\bar{r}_{t+1}=\frac{1}{t}\sum_{i=1}^{t}r_{i}.$
+\end_inset
+
+ This benchmark is extremely tough to beat, and in order to see if we our
+ model performs better than the benchmark we can assess the degree of out-of-sam
+ple predictability using the out-of-sample 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+R_{OS}^{2}=1-\frac{MSE_{x}}{MSE_{HA}}=1-\frac{\sum_{i=R+1}^{T}(r_{i}-\halfnote\hat{r}_{i})^{2}}{\sum_{i=R+1}^{T}(r_{i}-\halfnote\bar{r}_{i})^{2}}
+\]
+
+\end_inset
+
+It is of our interest that the MSE of our predicted model is lower than
+ that of the benchmark, because it implies that our estimates have performed
+ better.
+ So when our model is better, 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ should be positive, and the higher value it is, the better our model is
+ at predicting the excess returns.
+ However, we don't know how large 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ should be in order for us to conclude that our model is better than the
+ benchmark.
+ Hence we can perform the Diebold-Mariano (equal predictability) and Clark-West
+ (nested models) tests
+\begin_inset Formula 
+\begin{align*}
+DM & =(r_{i}-\bar{r}_{i})^{2}-(r_{i}-\hat{r}_{i})^{2}\\
+CW & =(r_{i}-\bar{r}_{i})^{2}-\left[(r_{i}-\hat{r}_{i})^{2}-(\bar{r}_{i}-\hat{r}_{i})^{2}\right],
+\end{align*}
+
+\end_inset
+
+where we test 
+\begin_inset Formula $H_{0}:E[DM]\leq0\text{ and }H_{0}:E[CW]\leq0$
+\end_inset
+
+.
+ If we can reject the nulls, our model outperforms the benchmark.
+ We should use both tests for testing the significance of our model (they
+ both work with rolling and expanding windows).
+ 
+\color inherit
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Lewellen's defence: propose adjusted 
+\begin_inset Formula $\beta$
+\end_inset
+
+ coefficient estimates by conditioning Stambaugh bias on estimated and true
+ persistence - strong evidence against no return predictability!
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Cochrane's defence: finds evidence for return predictability by showing
+ that the log 
+\begin_inset Formula $d_{t}-p_{t}$
+\end_inset
+
+ ratio can't predict dividend growth.
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Bootstrapping long horizon: 
+\begin_inset Formula $h$
+\end_inset
+
+ horizons - overlapping data due to lack of observations - bootstrapping
+ solution!
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Goyal and Welch: cannot outperform the historical benchmark (remember graphical
+ device CDSFE) - Campbell and Thomson restricts model with non-negative
+ expected returns, which works much better!
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Individual predictors are unstable and risky to rely on - try forecast combinati
+ons!
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Economic instead of statistical value: 
+\begin_inset Formula $CER=\mu_{p}-\frac{1}{2}\gamma\sigma_{p}^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Cross-sectional asset pricing: Theory and estimation 
+\end_layout
+
+\begin_layout Subsubsection*
+The Stochastic Discount Factor (SDF)
+\end_layout
+
+\begin_layout Standard
+The building block of cross-sectional predictability is the SDF, which is
+ denoted 
+\begin_inset Formula $M_{t}$
+\end_inset
+
+ and is a random variable with the following three properties
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $M_{t}$
+\end_inset
+
+ has a finite variance
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $M_{t}$
+\end_inset
+
+ is strictly positive under no arbitrage
+\end_layout
+
+\begin_layout Enumerate
+The price of an asset 
+\begin_inset Formula $i$
+\end_inset
+
+ is gives as 
+\begin_inset Formula $P_{i,t}(X_{i,t+1})=E_{t}(M_{t+1}X_{i,t+1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Complete markets
+\end_layout
+
+\begin_layout Standard
+First of all we need to distinguish between complete and incomplete markets.
+ Complete markets are characterized by discrete-state models with 
+\begin_inset Formula $S$
+\end_inset
+
+ states, each with probability 
+\begin_inset Formula $\pi(s)$
+\end_inset
+
+.
+ For each state there exists a contingent claim that pays $1 in one state
+ and nothing in any other state.
+ All possible bets of the future state of the world can be constructed using
+ the contingent claims, where prices on all contingent claims are strictly
+ positive and denoted 
+\begin_inset Formula $q(s)$
+\end_inset
+
+.
+ Under no-arbitrage, the price of an asset with payoff 
+\begin_inset Formula $X$
+\end_inset
+
+ is given as 
+\begin_inset Formula 
+\[
+p(X)=\sum_{s=1}^{S}q(s)X(s).
+\]
+
+\end_inset
+
+The law of one price says that two assets with identical payoffs in every
+ state must have the same price, otherwise we have arbitrage opportunities
+ (infinitely attractive investment).
+ To get an expectational expression of the price, we can multiply the equation
+ by 
+\begin_inset Formula $1=\pi(s)/\pi(s)$
+\end_inset
+
+ to obtain
+\begin_inset Formula 
+\[
+p(X)=\sum_{s=1}^{S}\pi(s)\frac{q(s)}{\pi(s)}X(s)=\sum_{s=1}^{S}\pi(s)M(s)X(s),
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $M(s)=q(s)/\pi(s)$
+\end_inset
+
+ is the SDF.
+ From this, the fundamental equation of asset pricing reads
+\begin_inset Formula 
+\[
+p(X)=E[MX].
+\]
+
+\end_inset
+
+Since 
+\begin_inset Formula $q(s),\pi(s)>0$
+\end_inset
+
+, it must hold that 
+\begin_inset Formula $M(s)>0$
+\end_inset
+
+.
+ A positive SDF exists if and only if markets are free of arbitrage.
+ If so, all assets can be priced according to the fundamental equation.
+ To see the connection between the SDF and risk-neutral probability, we
+ can multiply the equation by 
+\begin_inset Formula $1=R_{f}/R_{f}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+p(X)=\sum_{s=1}^{S}\pi(s)M(s)R_{f}\frac{X(s)}{R_{f}}=\sum_{s=1}^{S}\pi^{*}(s)\frac{X(s)}{R_{f}},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\pi^{*}(s)=\pi(s)M(s)R_{f}$
+\end_inset
+
+ is the risk-neutral probability.
+ So, we see that there is a 1-1 mapping between the SDF and risk-neutral
+ probabilities.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Consumption based asset pricing 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Every choice that we make most be due to some maximization problem, which
+ is why the SDF needs to be positive.
+ A natural way to motivate a risk factor is to see how it relates to the
+ maximization problem of the representative investor
+\begin_inset Formula 
+\[
+\max\sum_{t=1}^{T}\delta^{t}E[u(c_{t})|F_{t}],
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\delta$
+\end_inset
+
+ is the discount factor, 
+\begin_inset Formula $u(c)$
+\end_inset
+
+ is the utility function of consumption, and 
+\begin_inset Formula $F_{t}$
+\end_inset
+
+ is the investor's information set.
+ If a risk factor has an impact on risk aversion, consumption or investment
+ opportunities, it directly affects the SDF and expected returns.
+ The solution to the maximization problem is 
+\begin_inset Formula 
+\begin{align*}
+u'(c_{t})P_{i,t} & =E\left[\delta u'(c_{t+1})(P_{i,t+1}+D_{i,t+1})|F_{t}\right]
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $P_{i,t}$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{i,t}$
+\end_inset
+
+ is the price and dividend paid by asset 
+\begin_inset Formula $i$
+\end_inset
+
+ at time 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ This solution is also known as Euler's equation, which is an optimum for
+ the representative investor's consumption and portfolio choice problem.
+ We can rewrite the equation as follows
+\begin_inset Formula 
+\begin{align*}
+u'(c_{t})P_{i,t} & =E\left[\delta u'(c_{t+1})(P_{i,t+1}+D_{i,t+1})|F_{t}\right]\\
+P_{i,t} & =E\left[\delta\frac{u'(c_{t+1})}{u'(c_{t})}(P_{i,t+1}+D_{i,t+1})|F_{t}\right]\\
+1 & =E\left[\delta\frac{u'(c_{t+1})}{u'(c_{t})}\frac{(P_{i,t+1}+D_{i,t+1})}{P_{i,t}}|F_{t}\right]\\
+ & =E\left[\delta\frac{u'(c_{t+1})}{u'(c_{t})}R_{i,t+1}|F_{t}\right],
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $M_{t+1}=\delta\frac{u'(c_{t+1})}{u'(c_{t})}$
+\end_inset
+
+ and 
+\begin_inset Formula $R_{i,t+1}$
+\end_inset
+
+ is the gross return.
+ Since 
+\begin_inset Formula $\delta>0$
+\end_inset
+
+ and 
+\begin_inset Formula $u'(c)>0$
+\end_inset
+
+, because it is unreasonable to think that people will get more utility
+ from consuming less.
+ Hence, it must hold that 
+\begin_inset Formula $M_{t+1}>0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+Incomplete markets 
+\end_layout
+
+\begin_layout Standard
+With incomplete markets we work backwards, so in order to obtain at least
+ one SDF, we need to put some high-level structure on the economy.
+ To do so, we assume that it does not matter how one forms the payoff of
+ an asset, because the price of an asset is the sum of its constituents
+ (E.g.
+ the price of a happy meal should reflect the price of small fries, a hamburger
+ and a small soda).
+ Furthermore, we assume the law of one price, which rules out the effect
+ of packaging - a package is only worth what it contains and not how it
+ is branded.
+ Given these assumptions, there exists a payoff 
+\begin_inset Formula $X^{*}$
+\end_inset
+
+ so that 
+\begin_inset Formula 
+\[
+P(X)=E[X^{*},X],\;\forall X\in\Xi.
+\]
+
+\end_inset
+
+which satisfies the fundamental equation, but does not ensure 
+\begin_inset Formula $X^{*}>0$
+\end_inset
+
+, because it would imply absence of arbitrage (we cannot have a portfolio
+ that costs nothing for sure but might provide positve payoffs).
+ This also means that an SDF is only unique in complete markets and not
+ in incomplete markets.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+SDF and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ representation
+\end_layout
+
+\begin_layout Standard
+
+\color red
+If an SDF exists, we can always find a 
+\begin_inset Formula $\beta$
+\end_inset
+
+ representation for asset returns (vice versa):
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+\begin_inset Formula $SDF\Rightarrow\beta$
+\end_inset
+
+: The fundamental asset pricing equation in returns is defined by
+\begin_inset Formula 
+\begin{align*}
+1 & =E_{t}[M_{t+1}R_{i,t+1}]\\
+ & =E_{t}[M_{t+1}]E_{t}[R_{i,t+1}]+Cov[M_{t+1},R_{i,t+1}]\\
+E_{t}[R_{i,t+1}-R_{f,t+1}] & =-R_{f,t+1}Cov[M_{t+1},R_{i,t+1}]\\
+ & =\underset{\gamma_{M}}{\underbrace{-R_{f,t+1}Var[M_{t+1}]}}\underset{\beta_{i,M}}{\underbrace{\frac{Cov[M_{t+1},R_{i,t+1}]}{Var[M_{t+1}]}}},
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $\beta_{i,M}$
+\end_inset
+
+ is the coefficient of the return, and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ is the factor risk premium (for every 
+\begin_inset Formula $\beta$
+\end_inset
+
+ unit, the expected excess return increases by 
+\begin_inset Formula $\gamma$
+\end_inset
+
+).
+ We can test if 
+\begin_inset Formula $\gamma\neq0$
+\end_inset
+
+, which is called a test of wether the factor is priced in the financial
+ markets.
+ This is typically the main research question in empirical asset pricing
+ studies.
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+\begin_inset Formula $\beta\Rightarrow SDF$
+\end_inset
+
+: The beta representation above, (
+\begin_inset Formula $E_{t}[R_{i,t+1}-R_{f,t+1}]=\beta_{i,M}\gamma_{M}$
+\end_inset
+
+), is equivalent to a linear SDF model of the form 
+\begin_inset Formula 
+\[
+M_{t+1}=1-b'f_{t+1}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color black
+Fama-Macbeth
+\end_layout
+
+\begin_layout Standard
+
+\color black
+A pioneering approach to estimate asset pricing models and concluding inference
+ is through Fama-Macbeths two-stage regressions:
+\end_layout
+
+\begin_layout Enumerate
+
+\color black
+We obtain time-series 
+\begin_inset Formula $\beta$
+\end_inset
+
+s for all assets from time series regressions of excess returns onto risk
+ factors.
+ This step is necessary, since we cannot observe 
+\begin_inset Formula $\beta$
+\end_inset
+
+ directly, and thus need to estimate it using an OLS regression of the from
+\begin_inset Formula 
+\[
+R_{it}-R_{ft}=\alpha_{i}+\beta_{i}f_{t}+\epsilon_{it}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\color black
+We obtain an estimate of the risk premia through series of cross-sectional
+ regressions using the estimated 
+\begin_inset Formula $\beta$
+\end_inset
+
+s as input, i.e.
+\begin_inset Formula 
+\[
+R_{it}-R_{ft}=\gamma_{0t}+\gamma_{t}\hat{\beta}_{i}+\eta_{it}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color black
+This yields an estimate for the risk premia of the factors
+\begin_inset Formula 
+\[
+\hat{\gamma}_{j}=\frac{1}{T}\sum_{t=1}^{T}\hat{\gamma}_{jt},
+\]
+
+\end_inset
+
+from which we are interested in testing the null 
+\begin_inset Formula $H_{0}:\gamma_{j}=0$
+\end_inset
+
+.
+ However, the Fama-Macbeth regression analysis comes with an errors-in-variable
+ issue, because the explanatory variables are estimates of themselves and
+ therefore contains estimation error.
+ This will cause an overstated precision of the risk premia estimates.
+ Luckily, Shanken came up with a solution to this problem, which is to scale
+ the OLS standard errors upwards to reflect this overstated precision of
+ 
+\begin_inset Formula $\hat{\gamma}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+GMM
+\end_layout
+
+\begin_layout Standard
+
+\color red
+A much more elegant approach for the error-in-variable problem is the generalize
+d methods of moments approach, where the main idea is to define two sets
+ of moments.
+ The first set matches the time series stage for obtaining 
+\begin_inset Formula $\beta$
+\end_inset
+
+, and the second set matches the cross-sectional stage for obtaining 
+\begin_inset Formula $\gamma$
+\end_inset
+
+.
+ Merging these two sets of moments internalizes any errors-in-variable,
+ as 
+\begin_inset Formula $\beta$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ are estimated jointly.
+ The OLS time-series stage and the cross-sectional series stage from the
+ Fama-Macbeth analysis are
+\begin_inset Formula 
+\begin{align*}
+R_{t}^{e} & =\alpha+\beta f_{t}+\epsilon_{t}\\
+R_{t}^{e} & =\gamma_{0}\text{+\ensuremath{\beta}\ensuremath{\gamma}}+\eta_{i}
+\end{align*}
+
+\end_inset
+
+with joint moment conditions 
+\begin_inset Formula 
+\[
+E\left[\begin{array}{c}
+R_{t}^{e}-\alpha-\beta f_{t}\\
+(R_{t}^{e}-\alpha-\beta f_{t})\otimes f_{t}\\
+R_{t}^{e}-\gamma_{0}-\beta\gamma
+\end{array}\right]=E\left[\begin{array}{c}
+\epsilon_{t}\\
+\epsilon_{t}\otimes f_{t}\\
+\eta_{i}
+\end{array}\right]=E\left[\begin{array}{c}
+0_{N\times1}\\
+0_{NK\times1}\\
+0_{N\times1}
+\end{array}\right],
+\]
+
+\end_inset
+
+where the Kronecker product ensures that all error terms are uncorrelated
+ with all risk factors.
+ We see that when we only have the OLS times-series stage it is exactly
+ identified (
+\begin_inset Formula $0_{N\times1}\text{ and }0_{N\times K1}$
+\end_inset
+
+) and we only need to estimate 
+\begin_inset Formula $K\times1$
+\end_inset
+
+ additional parameters.
+ But when we add the cross-sectional stage, the system gets over-identified
+ with 
+\begin_inset Formula $N$
+\end_inset
+
+ moments (
+\begin_inset Formula $0_{N\times1}$
+\end_inset
+
+).
+ These moments will generally not reproduce OLS estimates, so in order to
+ achieve those we need mean zero errors who are uncorrelated with the regressors.
+ Hence we define the matrix
+\begin_inset Formula 
+\[
+e=\left[\begin{array}{cc}
+I_{N(K+1)} & 0_{N(K+1)\times N}\\
+0_{(K+1)\times N(K+1)} & \chi'
+\end{array}\right]
+\]
+
+\end_inset
+
+and multiply them onto the joint moment conditions above.
+ We do all this to obtain standard errors that are robust to errors-in-variables
+, autocorrelation, and heteroskedasticity!
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Non-traded factors: estimate risk premia using cross-sectional stage vs.
+ traded factors (are returns themselves e.g.
+ market risk premium): just take its sample mean!
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+SDF loadings: Instead of 
+\begin_inset Formula $\beta$
+\end_inset
+
+ representation we can estimate 
+\begin_inset Formula $b$
+\end_inset
+
+ in SDF: 
+\begin_inset Formula $M_{t}=1-b'f_{t}$
+\end_inset
+
+.
+ GMM moment condition is then 
+\begin_inset Formula $E[(1-b'f_{t})R_{t}^{e}]=0_{N\times1}$
+\end_inset
+
+ and the estimate is 
+\begin_inset Formula $\frac{1}{T}\sum_{t=1}^{T}R_{t}^{e}f_{t}'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Prescriptions of skeptical appraisals of tests: Expand the set of test portfolio
+s beyond size-value portfolios, take the magnitude of cross-sectional coefficien
+ts serious (if model implies 
+\begin_inset Formula $\gamma_{0}=0$
+\end_inset
+
+, make sure to test it), and report confidence intervals for the cross-sectional
+ 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Portfolio sorting and risk factors 
+\end_layout
+
+\begin_layout Standard
+Portfolio sorts are central to the empirical asset pricing literature and
+ is a commonly applied methodology, because they are useful in identifying
+ and assessing variables that can predict cross-sectional variation in future
+ returns.
+ Sorting variables are typically characteristics such as size and value,
+ but can also be exposure to economically motivated risk factors such as
+ market volatility.
+ Portfolio sorts has several advantages because it does no require any a
+ priori assumptions and is highly flexible and lets the researcher control
+ much of the setup (decide the characteristics, the number of portfolios
+ to construct and the number of assets in each portfolio).
+ On the other side, there are also a few drawbacks because it is only possible
+ to control for a very limited set of factors when we examine the cross-sectiona
+l relations of interest, and many choices are left to the researcher without
+ any guidance on correct implementations.
+\end_layout
+
+\begin_layout Subsubsection*
+Univariate portfolio sort
+\end_layout
+
+\begin_layout Standard
+A univariate portfolio sort consider a single sorting variable, 
+\begin_inset Formula $F_{i,t}$
+\end_inset
+
+, for each security 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ The objective is then to study the cross-sectional relationship between
+ the sorting variable and the future excess return to individual assets.
+ This process can be divided in four basic steps:
+\end_layout
+
+\begin_layout Enumerate
+Calculate breakpoint for dividing the universe of assets into portfolios:
+ 
+\begin_inset Formula $\mathcal{B}_{k,t}=\text{ Percentile }p_{k}\left(F_{i,t}\right)$
+\end_inset
+
+.
+ The more breakpoints we have, the closer the expected returns are to each
+ other.
+ However, there will be less assets within each breakpoint, which means
+ that the characteristics can't be affected by noise.
+\end_layout
+
+\begin_layout Enumerate
+Allocate assets into portfolios using the breakpoints: 
+\begin_inset Formula $P_{k,t}=\left\{ i\mid\mathcal{B}_{k-1,t}\leq F_{i,t}\leq\mathcal{B}_{k,t}\right\} $
+\end_inset
+
+ such that all securities with the lowest (largest) values of 
+\begin_inset Formula $F_{i,t}$
+\end_inset
+
+ are placed in the first (last) portfolio.
+\end_layout
+
+\begin_layout Enumerate
+Compute portfolio returns using either equal-weighting approach:
+\begin_inset Formula 
+\[
+r_{k,t}=\frac{1}{N_{k,t}}\sum_{i=1}^{N_{k,t}}r_{i,t}
+\]
+
+\end_inset
+
+or value-weighting: 
+\begin_inset Formula 
+\[
+r_{k,t}=\frac{\sum_{i=1}^{N_{k,t}}ME_{i,t-1}\times r_{i,t}}{\sum_{i=1}^{N_{k,t}}ME_{i,t-1}},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $N_{k,t}$
+\end_inset
+
+ is the number of securities in portfolio 
+\begin_inset Formula $k$
+\end_inset
+
+, and 
+\begin_inset Formula $ME_{i,t}$
+\end_inset
+
+ is the market value of the security.
+ Value-weighting alleviates issues with assigning too large weights to small
+ securities that are hard and expensive to trade, and is therefore most
+ appropriate to use when the securities are stocks.
+\end_layout
+
+\begin_layout Enumerate
+Examine the cross-sectional variation in average portfolio excess returns:
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Compute descriptive statistics for the portfolio excess returns.
+\end_layout
+
+\begin_layout Enumerate
+Test for monotonicity in average returns between the first and the last
+ portfolios by defining the difference between the average return of the
+ first and last portfolio as 
+\begin_inset Formula $∆_{i}=\mu_{i}-mu_{i-j}$
+\end_inset
+
+ and then test the null 
+\begin_inset Formula $H_{0}:∆\leq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Test wether the return pattern survives controlling for known risk factors.
+ We can do this by testing the intercept in a time series regression using
+ some asset pricing model
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Bivariate portfolio sort
+\end_layout
+
+\begin_layout Standard
+In this case, the universe of assets is sorted into portfolios based on
+ two variables.
+ Bivariate portfolio sorts are useful when we want to condition on more
+ than one sorting, and they differ mainly in the construction of breakpoints
+ and portfolio formation.
+ The remaining steps are identical.
+ We distinguish between two sorts:
+\end_layout
+
+\begin_layout Itemize
+Independent double sorts (the ordering of the sorting variables does not
+ matter): The breakpoints are defined as
+\begin_inset Formula 
+\[
+\begin{array}{l}
+\mathcal{B}_{k,t}^{1}=\text{ Percentile }_{p_{k}}\left(F_{i,t}^{1}\right)\\
+\mathcal{B}_{j,t}^{2}=\text{ Percentile }p_{j}\left(F_{i,t}^{2}\right)
+\end{array}
+\]
+
+\end_inset
+
+and the portfolios are defined as the intersection of the groups based on
+ the two sorting variables
+\begin_inset Formula 
+\[
+P_{k,j,t}=\left\{ i\mid\mathcal{B}_{k-1,t}^{1}\leq F_{i,t}^{1}\leq\mathcal{B}_{k,t}^{1}\right\} \cap\left\{ i\mid\mathcal{B}_{j-1,t}^{2}\leq F_{i,t}^{2}\leq\mathcal{B}_{j,t}^{2}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Dependent double sorts (the ordering of the sorting variables does matter):
+ The breakpoints for the second sorting variable are formed within each
+ group of the first sorting variable
+\begin_inset Formula 
+\[
+\mathcal{B}_{k,j,t}^{2}=\text{ Percentile }_{p_{j}}\left(F_{i,t}^{2}\mid\mathcal{B}_{k-1,t}^{1}\leq F_{i,t}^{1}\leq\mathcal{B}_{k,t}^{1}\right)
+\]
+
+\end_inset
+
+and the portfolios are defined as the intersection of the conditional groups
+ based on the two sorting variables
+\begin_inset Formula 
+\[
+P_{k,j,t}=\left\{ i\mid\mathcal{B}_{k-1,t}^{1}\leq F_{i,t}^{1}\leq\mathcal{B}_{k,t}^{1}\right\} \cap\left\{ i\mid\mathcal{B}_{k,j-1,t}^{2}\leq F_{i,t}^{2}\leq\mathcal{B}_{k,j,t}^{2}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Betting against beta 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+We can examine CAPM through a portfolio sort, because the underlying assumption
+ of CAPM is that investors can leverage and de-leverage their portfolios,
+ but in real-life we have leverage constraints and end up leverage portfolios
+ with an overweight of more risky assets.
+ Hence, Frazzini and Pedersen estimate a sorting variable 
+\begin_inset Formula 
+\[
+\hat{\beta}_{i}^{TS}=\hat{\rho}\frac{\hat{\sigma}_{i}}{\hat{\sigma}_{m}},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\hat{\sigma}_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\sigma}_{m}$
+\end_inset
+
+ are the standard deviations of asset 
+\begin_inset Formula $i$
+\end_inset
+
+ and the market, and 
+\begin_inset Formula $\hat{\rho}$
+\end_inset
+
+ is the correlation between asset 
+\begin_inset Formula $i$
+\end_inset
+
+ and the market.
+ Then they shrink 
+\begin_inset Formula $\beta$
+\end_inset
+
+ towards the cross-sectional mean towards the true cross-sectional average
+\begin_inset Formula 
+\[
+\hat{\beta}_{i}=w_{i}\hat{\beta}_{i}^{TS}+(1-w_{i})\beta^{XS}.
+\]
+
+\end_inset
+
+F&P find that low 
+\begin_inset Formula $\beta$
+\end_inset
+
+ portfolios seem to generate better return performance, why we should take
+ a short position in stocks with high beta and a long position in stocks
+ with a low beta.
+ This is known as the betting against beta strategy, where the market neutral
+ factor is defined as
+\begin_inset Formula 
+\[
+BAB_{t}=\frac{1}{\beta_{t}^{L}}(r_{t}^{L}-r_{f,t})-\frac{1}{\beta_{t}^{H}}(r_{t}^{H}-r_{f,t})
+\]
+
+\end_inset
+
+with the following rank-based weights
+\begin_inset Formula 
+\begin{align*}
+w_{H} & =k(z-\bar{z})^{+}\\
+w_{L} & =k(z-\bar{z})^{-},
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+ is the rank of asset 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ However, Novy-Marx and Velikov comes with a critique of the methodology
+ used by F&P.
+ They propose a different weighting, which implies a huge decline in the
+ return performance.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color black
+Risk factors
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Great debate about the number and identification of reliable risk factors
+ and cross-sectional return predictors: 
+\begin_inset Quotes eld
+\end_inset
+
+Dark side
+\begin_inset Quotes erd
+\end_inset
+
+ claims that most factors are false and that there exist a replication crisis
+ in finance vs.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+bright side
+\begin_inset Quotes erd
+\end_inset
+
+ who claims that most factors are true and can be replicated successfully.
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Currencies: Foreign investments has been growing rapidly, why currencies
+ are relatively cheap and thus attractable for speculation.
+ Exchange rate: 
+\begin_inset Formula $\frac{S_{t+1}}{S_{t}}=\frac{\tilde{M}_{t+1}}{M_{t+1}}$
+\end_inset
+
+.
+ Expected short-term exchange rate movements are due to 1) 
+\color blue
+difference in interest rates
+\color green
+ or 2) 
+\color purple
+difference in risk compensation
+\color green
+: 
+\begin_inset Formula $E(∆s_{t+1})=[{\color{blue}r_{f,t}-\tilde{r}_{f,t}}-\frac{1}{2}({\color{purple}\tilde{\lambda}_{t}'\tilde{\lambda}_{t}-\lambda_{t}'\lambda_{t}})]$
+\end_inset
+
+.
+ Interest rate difference = forward premium (CIP) 
+\begin_inset Formula $\frac{F_{t,i}-S_{t,i}}{S_{t,i}}\approx r_{f,t}-\tilde{r}_{f,t}$
+\end_inset
+
+ vs.
+ expected return of spot exchange rate (UIP).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Machine Learning in empirical asset pricing 
+\end_layout
+
+\begin_layout Subsubsection*
+ML in empirical asset pricing
+\end_layout
+
+\begin_layout Standard
+Machine learning is a collection of high-dimensional models for statistical
+ prediction combined with regularization methods for model selection, and
+ efficient algorithms for searching among a large number of potential model
+ specifications.
+ This enhances the flexibility relative to more traditional econometric
+ techniques, which brings hope of better approximating the unknown.
+ Furthermore, it guards against overfitting, which is likely to arise due
+ to the higher flexibility.
+ For these reasons, ML is perfectly suitable for empirical asset pricing,
+ since it has great potential for improving the estimation of the expected
+ excess return.
+ However, this is just measurements and says nothing about economic mechanisms
+ and equilibria.
+\end_layout
+
+\begin_layout Subsubsection*
+ML methods
+\end_layout
+
+\begin_layout Standard
+In its most general form, the excess return on an assets is expressed as
+ 
+\begin_inset Formula 
+\[
+r_{i,t+1}^{e}=\underset{g^{*}(z_{i,t})}{\underbrace{E_{t}[r_{i,t+1}^{e}]}}+\epsilon_{i,t+1}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+ is the set of predictors.
+ The objective is to learn the best specification of the general function
+ 
+\begin_inset Formula $g(·)$
+\end_inset
+
+, which quite a lot ML techniques are successful at.
+ Most of the techniques depend on parameters that are not part of the model
+ but rather specifies parts of the estimation procedure.
+ These are known as hyperparameters and include penalty parameters in LASSO
+ or number of random trees in a forest.
+ The hyperparameters can be tuned to optimize the out-of-sample performance
+ by splitting the sample into a training, validation, and testing period.
+ We iterate between the training and validation period to choose the hyperparame
+ters that minimize the value of the objective function, and reestimate the
+ model for the new candidate choice of hyperparameters each time.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+There exists three fundamental elements that each ML technique may be described
+ by:
+\end_layout
+
+\begin_layout Enumerate
+Each technique implies some model, 
+\begin_inset Formula $g^{*}(·)$
+\end_inset
+
+, for describing the general functional form for excess return predictions.
+\end_layout
+
+\begin_layout Enumerate
+Each technique employs the MSE as objective functions for estimation, and
+ some also employ penalty terms used for regularization.
+\end_layout
+
+\begin_layout Enumerate
+Each technique contains algorithms for optimal model specification.
+ 
+\end_layout
+
+\begin_layout Standard
+Furthermore, there exist three types of learning:
+\end_layout
+
+\begin_layout Enumerate
+Supervised learning: Data contains both dependent and independent variables,
+ where models are trained to learn the relationship between those.
+ This is typically used for prediction and could be an OLS regression.
+\end_layout
+
+\begin_layout Enumerate
+Unsupervised learning: Data contains only independent variables, where models
+ are constructed to find a structure in the grouping of data.
+ An example could be PCA.
+\end_layout
+
+\begin_layout Enumerate
+Reinforcement learning: The models learn how to take actions through feedback
+ and rewards, which for instance could be to play chess.
+\end_layout
+
+\begin_layout Subsubsection*
+Simple linear regression model
+\end_layout
+
+\begin_layout Standard
+The first ML method cannot really be classified as a ML technique, but rather
+ serves as a reference point for the performance of the other ML techniques.
+ It is the Simple linear regression model, which is linear in both variables
+ and parameters and is defined as
+\begin_inset Formula 
+\[
+g^{*}(z_{it};\theta)=z_{it}'\theta,
+\]
+
+\end_inset
+
+with objective function
+\begin_inset Formula 
+\[
+L(\theta)=\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}(r_{it+1}^{e}-g(z_{it};\theta))^{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color black
+Penalized linear model
+\end_layout
+
+\begin_layout Standard
+
+\color black
+When we have many predictors, the simple linear model is bound to fail,
+ and a natural solution to this problem is to reduce the number of estimated
+ parameters by sorting out the irrelevant variables.
+ This is known as regularization, where the model is still linear in both
+ variables and parameters, but now we add a penalty term to the original
+ loss function, so the objective function is defined by
+\begin_inset Formula 
+\[
+\tilde{L}(\theta;\lambda,\alpha)=L(\theta)+\phi(\lambda,\alpha).
+\]
+
+\end_inset
+
+The Elastic Net formulation of the penalty term is
+\begin_inset Formula 
+\[
+\phi(\lambda,\alpha)=\lambda(1-\alpha)\sum_{j=1}^{P}|\theta_{j}|+\frac{1}{2}\lambda\alpha\sum_{j=1}^{P}\theta_{j}^{2},
+\]
+
+\end_inset
+
+where we have a LASSO if 
+\begin_inset Formula $\alpha=0$
+\end_inset
+
+, a ridge regression if 
+\begin_inset Formula $\alpha=1$
+\end_inset
+
+, and an Elastic Net if 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is in-between 0 and 1.
+ Even though penalized regressions can handle high-dimensional data through
+ regularization, there will be problems if the predictors are highly correlated,
+ because regularization only removes some of the variables with noise but
+ leaves many that still includes noise.
+ In that case, it is better to just take the average of the predictor, because
+ it cancels out the noise.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Dimension reduction: PCR and PLS
+\end_layout
+
+\begin_layout Standard
+
+\color red
+This is known as the dimension reduction techniques, which are models that
+ form linear combinations such as the average of the predictor to reduce
+ the noise.
+ In vectorized form, the linear regression model is
+\begin_inset Formula 
+\[
+R=Z\theta+E
+\]
+
+\end_inset
+
+Two techniques are: 
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Principals Components Regression: regularizes the problem by zeroing out
+ low variance components.
+ Objective function:
+\begin_inset Formula 
+\[
+\omega_{j}=argmax_{\omega}Var[Z\omega]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Partial Least Squares: constructs components that maximize the covariation
+ with the target variable.
+ Objective function:
+\begin_inset Formula 
+\[
+\omega_{j}=argmax_{\omega}Cov[R,Z\omega]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Generalized linear model
+\end_layout
+
+\begin_layout Standard
+
+\color red
+While the penalized linear model and dimension reduction models only allow
+ for linear effects of the predictor, the generalized linear model allows
+ for higher-order effects.
+ Hence, the model has the same format as the penalized linear regression
+ model by additively including the higher-order transformations of the predictor
+s as
+\begin_inset Formula 
+\[
+g(z_{it};\theta)=z_{it}'\theta^{(1)}+z_{it}^{2'}\theta^{(2)}+...+z_{it}^{p'}\theta^{(p)}.
+\]
+
+\end_inset
+
+The objective function is the same as for the penalized linear model.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Regression trees
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The generalized linear models are not good enough, when we allow it to include
+ interactions as the number of parameters increases.
+ A solution is the regression trees that are designed to find groups of
+ observations that behave in the same way.
+ The tress are grown sequentially and at each step, data is sorted into
+ bins based on one of the predictor variables.
+ The model of a tree with 
+\begin_inset Formula $K$
+\end_inset
+
+ leaves and depth 
+\begin_inset Formula $L$
+\end_inset
+
+ is defined by
+\begin_inset Formula 
+\[
+g(z_{it};\theta,K,L)=\sum_{k=1}^{K}\theta_{k}1_{\{z_{it}\in C_{k}(L)\}},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $C_{k}(L)$
+\end_inset
+
+ is one of the 
+\begin_inset Formula $K$
+\end_inset
+
+ categories of data.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Neural networks
+\end_layout
+
+\begin_layout Standard
+
+\color red
+NN are also nonlinear prediction methods, and are quite complex and least
+ interpretable among all ML techniques.
+ NN consist of an input layer of raw predictors and one or more hidden layers
+ that interact and transform the predictors nonlinearly.
+ The number of input layers is equal to the dimension of predictors, and
+ if there is no hidden layer, the NN simply aggregates predictors into a
+ prediction via a linear regression model of the form
+\begin_inset Formula 
+\[
+\theta_{0}+\sum_{k=1}^{K}\theta_{k}z_{k}.
+\]
+
+\end_inset
+
+However, if there exist hidden layers, then each layer has a set of neurons,
+ where each neuron transforms the predictor variables before sending them
+ out to the next year.
+ NN with few or just one hidden layer is referred to as shallow, whereas
+ several layers defines deep learning.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Empirical study: ML is very useful for understanding time series variation
+ in excess returns.
+ Nonlinear methods performs best with NN on 1.
+ place and regressions trees on 2.
+ place.
+ They provide much more accurate measures of expectational excess return
+ and improve the sharpe ratio.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Recent advances in cross-sectional asset pricing
+\end_layout
+
+\begin_layout Subsubsection*
+Motivation
+\end_layout
+
+\begin_layout Standard
+One of the most fundamental research questions in empirical asset pricing
+ is wether a given risk factor is priced in the financial markets and what
+ its compensation is.
+ In this context, the Fama-Macbeth methodology has been improved, which
+ has been useful.
+ However, it may still be subject to biases if we omit important control
+ factors when estimating and testing a certain risk factor.
+\end_layout
+
+\begin_layout Subsubsection*
+Omitted variable bias 
+\end_layout
+
+\begin_layout Standard
+To recap the main point of the omitted variable bias concept, we consider
+ the simple OLS regressions model
+\begin_inset Formula 
+\[
+y_{i}=\alpha+\beta x_{i}+\delta z_{i}+\epsilon_{i},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+ are independent variables that drive the dependent variable 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+.
+ The omitted variable, 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+, introduces a bias unless it is unrelated to the variable of interest,
+ 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+.
+ In order to capture the true estimate of 
+\begin_inset Formula $\beta$
+\end_inset
+
+, we must specify a model that accounts for all relevant variables, which
+ is where the ML techniques come in hand.
+\end_layout
+
+\begin_layout Subsubsection*
+The model
+\end_layout
+
+\begin_layout Standard
+To understand the importance of omitted variable bias and measurement error
+ bias in the context of asset pricing, we consider the simplistic two-factor
+ model
+\begin_inset Formula 
+\[
+r_{t}^{e}=\gamma_{0^{l}N}+\beta(\gamma+\nu_{t})+u_{t},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $r_{t}^{e}$
+\end_inset
+
+ is a vector of the entire universe of excess returns across N assets, and
+ 
+\begin_inset Formula $\nu_{t}=(\nu_{1t},\nu_{2t})'$
+\end_inset
+
+ is a vector of two non-traded, potentially correlated factors.
+ Our main interest is then to estimate the risk premia on the factors, and
+ in the course, we have examined the Fama-Macbeth approach to estimate the
+ risk premia, but the omitted variable bias and measurement error bias causes
+ problems in this approach, which is why I will propose a methodology now
+ that jointly tackles the omitted variable and measurement error issues.
+\end_layout
+
+\begin_layout Subsubsection*
+A solution
+\end_layout
+
+\begin_layout Standard
+The objective is to estimate the risk premia of one or more factors without
+ necessarily observing all true factors, because there is no way we can
+ do that.
+ We do this by generalizing the two-factor model by assuming 
+\begin_inset Formula $g_{t}=\nu_{1t}+z_{t}$
+\end_inset
+
+, which allows for a more broad and general model of the set of observable
+ factors whose risk premia we aim to estimate.
+ This model is defined as
+\begin_inset Formula 
+\[
+g_{t}=\underset{intercept}{\underbrace{\delta}}+\underset{slope}{\underbrace{\eta}}\nu_{t}+z_{t}.
+\]
+
+\end_inset
+
+The risk premium of 
+\begin_inset Formula $g_{t}$
+\end_inset
+
+ that we want to estimate is the expected excess return of a portfolio with
+ 
+\begin_inset Formula $\beta=1$
+\end_inset
+
+ w.r.t.
+ 
+\begin_inset Formula $g_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta=0$
+\end_inset
+
+ w.r.t.
+ all other factors, and is defined as 
+\begin_inset Formula $\gamma_{g}=\eta\gamma$
+\end_inset
+
+.
+ In order to estimate the risk premia, we need some way to estimate the
+ entire product 
+\begin_inset Formula $\eta\gamma$
+\end_inset
+
+ or their individual constituents.
+ This can be done by using a rotation invariance result, which states that
+ the product of 
+\begin_inset Formula $\eta\gamma$
+\end_inset
+
+ can be identified if we observe an arbitrary full-rank rotation of the
+ factors, 
+\begin_inset Formula $\hat{\nu}_{t}=H\nu_{t}$
+\end_inset
+
+, but does neither observe 
+\begin_inset Formula $\nu_{t}$
+\end_inset
+
+ nor 
+\begin_inset Formula $H$
+\end_inset
+
+.
+ This is known as PCA, and enables us to express the model in terms of the
+ rotated factors as
+\begin_inset Formula 
+\[
+g_{t}=\delta+\hat{\eta}\hat{\nu}_{t}+z_{t},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\hat{\eta}=\eta H^{-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\gamma}=H\gamma$
+\end_inset
+
+, so that
+\begin_inset Formula 
+\[
+\hat{\eta}\hat{\gamma}=\eta H^{-1}H\gamma=\eta\gamma=\gamma_{g}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Three-pass methodology
+\end_layout
+
+\begin_layout Standard
+We can now use the insights I have presented to formulate the three-pass
+ procedure to estimate the risk premia of the risk factors:
+\end_layout
+
+\begin_layout Enumerate
+Estimate the rotated factors 
+\begin_inset Formula $\hat{\nu}_{t}$
+\end_inset
+
+ via PCA.
+\end_layout
+
+\begin_layout Enumerate
+Estimate the risk premia, i.e.
+ 
+\begin_inset Formula $\hat{\gamma}=H\gamma$
+\end_inset
+
+ via standard Fama-Macbeth two-stage regression.
+\end_layout
+
+\begin_layout Enumerate
+Estimate 
+\begin_inset Formula $\hat{\eta}=\eta H^{-1}$
+\end_inset
+
+ via the time-series regressions, 
+\begin_inset Formula $g_{t}$
+\end_inset
+
+, onto 
+\begin_inset Formula $\hat{\nu}_{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The risk premia of 
+\begin_inset Formula $g_{t}$
+\end_inset
+
+ can then be estimated by taking the product of 
+\begin_inset Formula $\hat{\eta}\hat{\gamma}$
+\end_inset
+
+ from step 2.
+ and 3.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Taming the zoo
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The finance literature has constructed an enormous amount of factors that
+ apparently all are priced in the financial markets, so in order to determine
+ whether a new factor is truly new or redundant, we can estimate and test
+ the marginal contribution of risk factors, 
+\begin_inset Formula $g_{t}$
+\end_inset
+
+, conditional on existing risk factors, 
+\begin_inset Formula $h_{t}$
+\end_inset
+
+.
+ To do so, we can consider the SDF
+\begin_inset Formula 
+\[
+M_{t}=\gamma_{0}^{-1}(1-\lambda_{g}'g_{t}-\lambda_{h}'h_{t}),
+\]
+
+\end_inset
+
+Our objective is then to estimate and test 
+\begin_inset Formula $\lambda_{g}$
+\end_inset
+
+ while controlling for 
+\begin_inset Formula $h_{t}$
+\end_inset
+
+ using the LASSO.
+ However, LASSO might lead to omitted variable bias, which is why we add
+ a second step to capture the missing factors from the LASSO.
+ This minimizes the cost of excluding factors that shouldn't be excluded.
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Step: Search for factors that are useful for explaining the cross-sectional
+ variation in expected returns by running the following cross-sectional
+ LASSO regression
+\begin_inset Formula 
+\[
+E(R_{t})=\gamma_{0}+C_{h}\lambda_{h}+\epsilon.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Step: Search for factors that are useful for explaining the cross-sectional
+ variation in exposures to the risk factor.
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Finally we run a simple cross-sectional OLS regression
+\begin_inset Formula 
+\[
+E(R_{t})=\gamma_{0}+C_{h}\lambda_{h}+C_{g}\lambda_{g}+\epsilon,
+\]
+
+\end_inset
+
+This two-pass variable selection procedure reduces the bias and makes it
+ possible for us to make inference on the SDF loadings.
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+If 
+\begin_inset Formula $\eta\approx0$
+\end_inset
+
+, the observable factors that are weak, which will imply weak factor loadings
+ (poorly estimated with little cross-sectional variation).
+ The 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ from regressing 
+\begin_inset Formula $g_{t}$
+\end_inset
+
+ onto 
+\begin_inset Formula $\hat{\nu}_{t}$
+\end_inset
+
+ measures the strength of the factor, and the significance of this strength
+ can be tested using a Wald test with the null 
+\begin_inset Formula $H_{0}:\eta=0$
+\end_inset
+
+ and the alternative 
+\begin_inset Formula $H_{1}:\eta\neq0$
+\end_inset
+
+.
+ So, a factor is strong if we reject the null.
+ (We use Wald test because we test many null restrictions in 
+\begin_inset Formula $\eta$
+\end_inset
+
+so we need 
+\begin_inset Formula $\hat{p}$
+\end_inset
+
+ degrees of freedom as in the Wald test, and not 
+\begin_inset Formula $\hat{p}=1$
+\end_inset
+
+ as in a standard t-test.
+\end_layout
+
+\begin_layout Itemize
+
+\color green
+Giglio and Xiu find that three-pass procedure delivers risk premia estimates
+ that are close economically and statistically to the averages of traded
+ factors.
+ Test of the strength shows that traded factors are generally strong while
+ many non-traded are weak.
+\end_layout
+
+\end_body
+\end_document
