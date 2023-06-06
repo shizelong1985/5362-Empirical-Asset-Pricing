@@ -479,7 +479,8 @@ Get same coefficients, but with lower bias.
 
 \end_deeper
 \begin_layout Itemize
-Stambaugh bias conditioned on estimated persistence and true persistence.
+Stambaugh bias conditioned on estimated persistence and true persistence
+ is:
 \end_layout
 
 \begin_deeper
@@ -531,6 +532,81 @@ Cochrane's defence: finds evidence for return predictability by showing
  ratio can't predict dividend growth.
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Defends return predictability by directing attention to the inability of
+ the log dividend-price to predict dividend growth.
+ The idea is that if price dividend cannot explain dividend growth, then
+ it must explain returns.
+ From the abstract: 
+\shape italic
+If returns are not predictable, dividend growth must be predictable, to
+ generate the observed variation in divided yields.
+ I find that the absence of dividend growth predictability gives stronger
+ evidence than does the presence of return predictability.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\Delta d_{t+1} & =\alpha_{d}+\beta_{d}\left(d_{t}-p_{t}\right)+\varepsilon_{d,t+1}\\
+r_{t+1} & =\alpha_{r}+\beta_{r}\left(d_{t}-p_{t}\right)+\varepsilon_{r,t+1}\\
+d_{t+1}-r_{t+1} & =\lambda+\rho\left(d_{t}-p_{t}\right)+\varepsilon_{dp,t+1}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Parameters linked as
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\beta_{r}=1+\beta_{d}-\phi\rho
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $\phi=0.97$
+\end_inset
+
+ and we know 
+\begin_inset Formula $\rho≤1$
+\end_inset
+
+, then 
+\begin_inset Formula $\beta_{r}>\beta_{d}+0.03$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Cochrane finds 
+\begin_inset Formula $\beta_{d}\approx0$
+\end_inset
+
+, thus 
+\begin_inset Formula $\beta_{r}>0$
+\end_inset
+
+, implying predictability of stock returns.
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \color green

@@ -183,11 +183,9 @@ d_{t}-p_{t} & =\frac{-\kappa}{1-\phi}+\mathbb{E}_{t}\left[\sum_{j=0}^{\infty}\ph
 
 \end_inset
 
-This equation is central to the predictability debate because it implies
- that the log dividend- price must predict either future expected dividends,
- future expected returns, or a combination of the two.
- It also tells us that the log dividend-price ratio should predict returns
- with a positive coefficient.
+This tells us that if the dividend-price ratio varies over time, this must
+ reflect predictable changes in either future dividends, future returns,
+ or some combinations of the two.
  
 \color red
 
@@ -444,82 +442,6 @@ Lewellen's defence: propose adjusted
  persistence - strong evidence against no return predictability!
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Lewellen states that while predictive regressions are subject to small-sample
- biases, the correction used by prior studies can substantially understate
- forecasting power.
- He therefore uses a different test to show that dividend yield predicts
- market returns.
- Incorporating information about the sample autocorrelation of DY helps
- produce more powerful tests of predictability.
- Incorporating this information into empirical tests has two effects: (1)
- the slope estimate is often larger than the standard bias-adjusted estimate;
- and (2) the variance of the estimate is much lower.
- In combination, the two effects can substantially raise the power of empirical
- tests.
-\end_layout
-
-\begin_layout Itemize
-Realizes maximum bias at 
-\begin_inset Formula $\rho=1$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Adjust coefficients for bias.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Get same coefficients, but with lower bias.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Stambaugh bias conditioned on estimated persistence and true persistence.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\mathbb{E}[\hat{\beta}-\beta & \mid\rho,\hat{\rho}]=\gamma\left(\hat{\rho}-\rho\right)\\
- & \Downarrow\\
-\hat{\beta}_{\text{adj}} & =\hat{\beta}-\gamma\left(\hat{\rho}-\rho\right)\\
-\text{Var}\left(\hat{\beta}_{\text{adj}}\right) & =\frac{\sigma_{\eta}^{2}}{\left(T\sigma_{x}^{2}\right)}
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-We don’t know 
-\begin_inset Formula $\rho$
-\end_inset
-
-, but we know that 
-\begin_inset Formula $\rho=1$
-\end_inset
-
- is where the maximum bias occurs as 
-\begin_inset Formula $d_{t}−p_{t}$
-\end_inset
-
- is not explosive.
-\end_layout
-
-\begin_layout Itemize
-These bias-adjusted coefficients are found to be similar to unadjusted coefficie
-nts, but with much lower variance.
-\end_layout
-
-\end_deeper
-\end_deeper
 \begin_layout Itemize
 
 \color green
