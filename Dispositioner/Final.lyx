@@ -5,18 +5,32 @@
 \save_transient_properties true
 \origin unavailable
 \textclass article
+\begin_preamble
+\usepackage{lastpage}
+\usepackage{matlab-prettifier}
+\fancyhf{}               % Clear fancy header/footer
+\fancyfoot[C]{Page \thepage~of~\pageref{LastPage}}  % Page number in center footer
+\end_preamble
 \use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+graphicboxes
+minimalistic
+customHeadersFooters
+\end_modules
 \maintain_unincluded_children false
 \language english
 \language_package default
-\inputencoding auto
+\inputencoding utf8
 \fontencoding global
 \font_roman "default" "default"
 \font_sans "default" "default"
 \font_typewriter "default" "default"
 \font_math "auto" "auto"
 \font_default_family default
-\use_non_tex_fonts false
+\use_non_tex_fonts true
 \font_sc false
 \font_osf false
 \font_sf_scale 100 100
@@ -24,14 +38,24 @@
 \use_microtype false
 \use_dash_ligatures true
 \graphics default
-\default_output_format default
+\default_output_format pdf5
 \output_sync 0
 \bibtex_command default
 \index_command default
+\float_placement H
 \paperfontsize default
 \spacing single
-\use_hyperref false
-\papersize default
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle false
+\papersize a4paper
 \use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
@@ -50,19 +74,19 @@
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\justification true
+\justification false
 \use_refstyle 1
 \use_minted 0
 \index Index
 \shortcut idx
 \color #008000
 \end_index
-\leftmargin 2cm
-\topmargin 2cm
-\rightmargin 2cm
-\bottommargin 2cm
-\secnumdepth 3
-\tocdepth 3
+\leftmargin 3cm
+\topmargin 4cm
+\rightmargin 3cm
+\bottommargin 4cm
+\secnumdepth 5
+\tocdepth 4
 \paragraph_separation indent
 \paragraph_indentation default
 \is_math_indent 0
@@ -71,7 +95,10 @@
 \dynamic_quotes 0
 \papercolumns 1
 \papersides 1
-\paperpagestyle default
+\paperpagestyle fancy
+\listings_params "style={Matlab-editor}"
+\bullet 2 0 10 -1
+\bullet 3 0 9 -1
 \tracking_changes false
 \output_changes false
 \html_math_output 0
@@ -618,6 +645,126 @@ Bootstrapping long horizon:
  solution!
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+It may be relevant to forecast excess returns over a longer horizon.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Strong connection between short- and long-horizon predictability.
+\end_layout
+
+\begin_layout Itemize
+If we do not have predictability on the short horizon, then we will not
+ have predictability on long horizon either.
+\end_layout
+
+\begin_layout Itemize
+We can test short- and long-horizon independently.
+\end_layout
+
+\begin_layout Itemize
+It is important to note that long horizon predictive regressions introduce
+ the problem of overlapping samples which causes serial correlated errors
+ (
+\begin_inset Formula $\varepsilon_{t\rightarrow t+h}\sim\text{MA}\left(h-1\right)$
+\end_inset
+
+)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Newey-West is a poor solution.
+\end_layout
+
+\begin_layout Itemize
+Bootstrapping is ideal as it deals with both serial correlation and small-sample
+-bias simultaneously.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+When forecasting excess returns over a longer horizon, we consider the equation
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+r_{t\rightarrow t+h}=\alpha_{h}+\beta_{h}x_{t}+\varepsilon_{t\rightarrow t+h}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with 
+\begin_inset Formula $h$
+\end_inset
+
+-period log excess return as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+r_{t\rightarrow t+h} & =\ln\left(1+R_{t\rightarrow t+h}\right)=\sum_{i=1}^{h}\ln\left(1+R_{t+i}\right)\\
+ & =\sum_{i=1}^{h}r_{t+i}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+often end up using overlapping returns in studies of long-horizon predictability
+ due to data limitations, however the errors are distributed differently,
+ and the OLS standard error will no longer be valid.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Instead of estimating the predictive regression from the return formula
+ on the simulated data to obtain 
+\begin_inset Formula $\tilde{\beta}^{1}$
+\end_inset
+
+, we use 
+\begin_inset Formula $T$
+\end_inset
+
+ simulated one-period returns 
+\begin_inset Formula $r_{t+1}^{*}$
+\end_inset
+
+ to build multi-period returns 
+\begin_inset Formula $r_{t\rightarrow t+h}^{*}$
+\end_inset
+
+.
+ Then we estimate the multi-period model on the simulated data to obtain
+ 
+\begin_inset Formula $\tilde{\beta}_{h}^{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+This requires no estimate of standard error and thus automatically deals
+ with the overlapping-data-problem, while automatically and simultaneously
+ accounting for small-sample bias.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
 \begin_layout Itemize
 
 \color green
@@ -626,6 +773,92 @@ Goyal and Welch: cannot outperform the historical benchmark (remember graphical
  expected returns, which works much better!
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Cumulative difference in squared forecast errors (CDSFE)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{CDSFE}_{t}=\sum_{i=R+1}^{t}\left(r_{i}-\bar{r_{i}}\right)^{2}-\sum_{i=R+1}^{t}\left(r_{i}-\hat{r_{i}}\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Informative about the timing of the value of predictor information.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Positive slope
+\series default
+ implies the predictive models outperform the benchmark in terms of MSFE.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Negative slope
+\series default
+ implies the predictive models underperform relative to the benchmark in
+ terms of MSFE.
+\end_layout
+
+\begin_layout Itemize
+Interpretation:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Limited evidence of in-sample predictability and virtually no out-of-sample
+ predictability over time.
+\end_layout
+
+\begin_layout Itemize
+What limited evidence we might see is fully attributable to the 1974 oil
+ crisis in their paper.
+\end_layout
+
+\begin_layout Itemize
+Sensitive in times of economic unrest.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Campbell and Thomson defend out of sample predictability by improving out-of-sam
+ple performance from restrictions imposed.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+E.g.
+ expected excess returns (risk premia) should be non-negative while slope
+ coefficients should align with theory.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{r}_{t+1}=\max\left\{ 0,\hat{\alpha}+\max\left\{ 0,\hat{\beta}\right\} x_{t}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
 \begin_layout Itemize
 
 \color green

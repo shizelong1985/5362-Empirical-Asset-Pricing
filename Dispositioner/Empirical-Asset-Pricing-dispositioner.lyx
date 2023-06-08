@@ -479,7 +479,8 @@ Get same coefficients, but with lower bias.
 
 \end_deeper
 \begin_layout Itemize
-Stambaugh bias conditioned on estimated persistence and true persistence.
+Stambaugh bias conditioned on estimated persistence and true persistence
+ is:
 \end_layout
 
 \begin_deeper
@@ -531,6 +532,81 @@ Cochrane's defence: finds evidence for return predictability by showing
  ratio can't predict dividend growth.
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Defends return predictability by directing attention to the inability of
+ the log dividend-price to predict dividend growth.
+ The idea is that if price dividend cannot explain dividend growth, then
+ it must explain returns.
+ From the abstract: 
+\shape italic
+If returns are not predictable, dividend growth must be predictable, to
+ generate the observed variation in divided yields.
+ I find that the absence of dividend growth predictability gives stronger
+ evidence than does the presence of return predictability.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\Delta d_{t+1} & =\alpha_{d}+\beta_{d}\left(d_{t}-p_{t}\right)+\varepsilon_{d,t+1}\\
+r_{t+1} & =\alpha_{r}+\beta_{r}\left(d_{t}-p_{t}\right)+\varepsilon_{r,t+1}\\
+d_{t+1}-r_{t+1} & =\lambda+\rho\left(d_{t}-p_{t}\right)+\varepsilon_{dp,t+1}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Parameters linked as
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\beta_{r}=1+\beta_{d}-\phi\rho
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $\phi=0.97$
+\end_inset
+
+ and we know 
+\begin_inset Formula $\rho≤1$
+\end_inset
+
+, then 
+\begin_inset Formula $\beta_{r}>\beta_{d}+0.03$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Cochrane finds 
+\begin_inset Formula $\beta_{d}\approx0$
+\end_inset
+
+, thus 
+\begin_inset Formula $\beta_{r}>0$
+\end_inset
+
+, implying predictability of stock returns.
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \color green
@@ -542,6 +618,126 @@ Bootstrapping long horizon:
  solution!
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+It may be relevant to forecast excess returns over a longer horizon.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Strong connection between short- and long-horizon predictability.
+\end_layout
+
+\begin_layout Itemize
+If we do not have predictability on the short horizon, then we will not
+ have predictability on long horizon either.
+\end_layout
+
+\begin_layout Itemize
+We can test short- and long-horizon independently.
+\end_layout
+
+\begin_layout Itemize
+It is important to note that long horizon predictive regressions introduce
+ the problem of overlapping samples which causes serial correlated errors
+ (
+\begin_inset Formula $\varepsilon_{t\rightarrow t+h}\sim\text{MA}\left(h-1\right)$
+\end_inset
+
+)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Newey-West is a poor solution.
+\end_layout
+
+\begin_layout Itemize
+Bootstrapping is ideal as it deals with both serial correlation and small-sample
+-bias simultaneously.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+When forecasting excess returns over a longer horizon, we consider the equation
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+r_{t\rightarrow t+h}=\alpha_{h}+\beta_{h}x_{t}+\varepsilon_{t\rightarrow t+h}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with 
+\begin_inset Formula $h$
+\end_inset
+
+-period log excess return as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+r_{t\rightarrow t+h} & =\ln\left(1+R_{t\rightarrow t+h}\right)=\sum_{i=1}^{h}\ln\left(1+R_{t+i}\right)\\
+ & =\sum_{i=1}^{h}r_{t+i}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+often end up using overlapping returns in studies of long-horizon predictability
+ due to data limitations, however the errors are distributed differently,
+ and the OLS standard error will no longer be valid.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Instead of estimating the predictive regression from the return formula
+ on the simulated data to obtain 
+\begin_inset Formula $\tilde{\beta}^{1}$
+\end_inset
+
+, we use 
+\begin_inset Formula $T$
+\end_inset
+
+ simulated one-period returns 
+\begin_inset Formula $r_{t+1}^{*}$
+\end_inset
+
+ to build multi-period returns 
+\begin_inset Formula $r_{t\rightarrow t+h}^{*}$
+\end_inset
+
+.
+ Then we estimate the multi-period model on the simulated data to obtain
+ 
+\begin_inset Formula $\tilde{\beta}_{h}^{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+This requires no estimate of standard error and thus automatically deals
+ with the overlapping-data-problem, while automatically and simultaneously
+ accounting for small-sample bias.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
 \begin_layout Itemize
 
 \color green
@@ -550,6 +746,92 @@ Goyal and Welch: cannot outperform the historical benchmark (remember graphical
  expected returns, which works much better!
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Cumulative difference in squared forecast errors (CDSFE)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{CDSFE}_{t}=\sum_{i=R+1}^{t}\left(r_{i}-\bar{r_{i}}\right)^{2}-\sum_{i=R+1}^{t}\left(r_{i}-\hat{r_{i}}\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Informative about the timing of the value of predictor information.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Positive slope
+\series default
+ implies the predictive models outperform the benchmark in terms of MSFE.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Negative slope
+\series default
+ implies the predictive models underperform relative to the benchmark in
+ terms of MSFE.
+\end_layout
+
+\begin_layout Itemize
+Interpretation:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Limited evidence of in-sample predictability and virtually no out-of-sample
+ predictability over time.
+\end_layout
+
+\begin_layout Itemize
+What limited evidence we might see is fully attributable to the 1974 oil
+ crisis in their paper.
+\end_layout
+
+\begin_layout Itemize
+Sensitive in times of economic unrest.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Campbell and Thomson defend out of sample predictability by improving out-of-sam
+ple performance from restrictions imposed.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+E.g.
+ expected excess returns (risk premia) should be non-negative while slope
+ coefficients should align with theory.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{r}_{t+1}=\max\left\{ 0,\hat{\alpha}+\max\left\{ 0,\hat{\beta}\right\} x_{t}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
 \begin_layout Itemize
 
 \color green
